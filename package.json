@@ -15,6 +15,20 @@
   },
   "devDependencies": {
     "eslint": "8.21.0",
-    "eslint-config-next": "12.2.3"
-  }
+    "eslint-config-next": "12.2.3",
+    "eslint-config-standard": "^17.0.0",
+    "sass": "^1.54.0"
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therazor113/Mood-next.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/therazor113/Mood-next/issues"
+  },
+  "homepage": "https://github.com/therazor113/Mood-next#readme"
 }
