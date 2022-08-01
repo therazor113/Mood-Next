@@ -1,12 +1,7 @@
+# Mood-next
+
 ## Getting Started
 
-First, run the development server:
-
 npm run dev
-# or
-yarn dev
 
-
-Open [http://localhost:3000]
-
-# Mood-next
+http://localhost:3000
