@@ -1,15 +1,12 @@
-import FooterComponent from 'components/core/FooterComponent'
-import HeaderComponent from 'components/core/HeaderComponent'
+import Layout from 'components/core/Layout'
 import Testing from 'components/pageRefs/Testing'
 
 import classes from 'styles/Home.module.scss'
 
 export default function Home () {
   return (
-    <div className={classes.container}>
+    <Layout>
       <Testing />
-      <HeaderComponent />
-      <main className={classes.main}>
         <h1 className={classes.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -48,8 +45,6 @@ export default function Home () {
             </p>
           </a>
         </div>
-      </main>
-      <FooterComponent />
-    </div>
+    </Layout>
   )
 }
