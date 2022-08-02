@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-const HeaderComponent = () => {
+const HeadComponent = () => {
   return (
     <Head>
       <title>Mood-next</title>
@@ -10,4 +10,4 @@ const HeaderComponent = () => {
   )
 }
 
-export default HeaderComponent
+export default HeadComponent
