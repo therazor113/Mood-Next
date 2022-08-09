@@ -1,4 +1,4 @@
-# Mood-next
+# Mood-Next
 
 Work in progress
 
