@@ -2,7 +2,7 @@ import { Chart } from 'react-chartjs-2'
 
 import classes from './styles.module.scss'
 
-const MoodChart = () => {
+const MoodChart = ({ stats }) => {
   const options = {
     responsive: true,
     scales: {
@@ -26,11 +26,10 @@ const MoodChart = () => {
     labels,
     datasets: [
       {
-        label: 'Dataset 2',
-        data: [3, 7, 8, 3, 2, 7, 6, 8],
+        label: 'Dataset',
+        data: stats,
         borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        borderJoinStyle: 'round'
+        backgroundColor: 'rgba(53, 162, 235, 0.5)'
       }
     ]
   }
