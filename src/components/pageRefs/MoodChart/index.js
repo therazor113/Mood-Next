@@ -2,12 +2,14 @@ import { Chart } from 'react-chartjs-2'
 
 import classes from './styles.module.scss'
 
-const MoodChart = ({ stats }) => {
+const MoodChart = ({ stats, statNumbers }) => {
   const options = {
     responsive: true,
     scales: {
       y: {
-        beginAtZero: true
+        min: 1,
+        suggestedMax: 4,
+        stepSize: 1
       }
     },
     plugins: {
@@ -16,22 +18,42 @@ const MoodChart = ({ stats }) => {
       },
       title: {
         display: true,
-        text: 'Mood by month'
+        text: 'Mood by week'
+      },
+      tooltip: {
+        callbacks: {
+          label: (item) => {
+            return `Entry: ${item.dataset.entry[item.dataIndex].journal}`
+          },
+          labelColor: (item) => {
+            return {
+              borderColor: item.dataset.color[item.raw - 1],
+              backgroundColor: item.dataset.color[item.raw - 1]
+            }
+          },
+          labelTextColor: (item) => {
+            return item.dataset.color[item.raw - 1]
+          }
+        }
       }
     }
   }
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
+  const labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const colors = ['red', 'pink', 'purple', 'blue', 'lightblue', 'teal', 'gray', 'lightgreen', 'green']
 
   const data = {
     labels,
-    datasets: [
-      {
-        label: 'Dataset',
-        data: stats,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)'
-      }
-    ]
+    datasets: [{
+      entry: stats,
+      color: colors,
+      data: statNumbers,
+      tension: 0.1,
+      borderColor: 'teal',
+      backgroundColor: [
+        colors[stats[0].number - 1],
+        colors[stats[1].number - 1]
+      ]
+    }]
   }
   return (
     <div className={classes.container}>
