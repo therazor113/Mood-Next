@@ -1,12 +1,16 @@
 import Layout from 'components/core/Layout'
-import MoodChart from 'components/pageRefs/MoodChart'
-import Testing from 'components/pageRefs/Testing'
+import CreateUser from 'components/utilities/Testing/CreateUser'
+import LoginUser from 'components/utilities/Testing/LoginUser'
 
-export default function Home () {
+function Home () {
   return (
     <Layout>
-      <Testing />
-      <MoodChart />
+      <div style={{ display: 'flex', gap: '2rem' }}>
+        <CreateUser />
+        <LoginUser />
+      </div>
     </Layout>
   )
 }
+
+export default Home
