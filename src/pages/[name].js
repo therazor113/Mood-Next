@@ -1,5 +1,6 @@
 import MoodChart from 'components/pageRefs/MoodChart'
 import CreateEntry from 'components/utilities/Testing/CreateEntry'
+import UpdateEntry from 'components/utilities/Testing/UpdateEntry'
 
 export const getStaticPaths = async () => {
   const res = await fetch('http://localhost:3000/api/UsersApi/UsersData')
@@ -24,21 +25,28 @@ export const getStaticProps = async (context) => {
   const statNums = []
   const statsData = await statsRes.json()
   for (let i = 0; i < statsData.length; i++) {
-    statNums.push(statsData[i].number)
+    statNums.push(statsData[i].mood)
   }
 
   return {
-    props: { user: userData, stats: statsData, statNumbers: statNums }
+    props: { user: userData, stats: statsData, statMoods: statNums }
   }
 }
 
-const UserInfo = ({ user, stats, statNumbers }) => {
+const UserInfo = ({ user, stats, statMoods }) => {
   return (
     <div>
       <h2>{user.name}</h2>
       <h2>{user.userid}</h2>
-      <MoodChart stats={stats} statNumbers={statNumbers} />
+      <MoodChart stats={stats} statMoods={statMoods} />
       <CreateEntry userid={user.userid} />
+      {stats.map((userStats) => (
+          <ul style={{ listStyleType: 'none' }} key={userStats.id}>
+            <li>Mood: {userStats.mood}</li>
+            <li>Journal Entry: {userStats.journal}</li>
+            <UpdateEntry journalId={userStats.id} />
+          </ul>
+      ))}
     </div>
   )
 }
