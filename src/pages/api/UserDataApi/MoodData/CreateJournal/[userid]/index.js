@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import pool from 'lib/db'
 
-const CreateUserByName = async (req, res) => {
+const CreateJournalEntry = async (req, res) => {
   try {
     if (req.method === 'POST') {
       const { entry } = req.body
@@ -10,7 +10,7 @@ const CreateUserByName = async (req, res) => {
       // if (user.rows[0]) {
       // res.json('Entry already made for that date')
       // } else {
-      const newUser = await pool.query('INSERT INTO moods (number, journal, userid) VALUES ($1, $2, $3) RETURNING *',
+      const journalEntry = await pool.query('INSERT INTO dailymoods (mood, journal, userid) VALUES ($1, $2, $3) RETURNING *',
         [mood, entry, req.query.userid]
       )
       res.json(`Journal: ${entry} with mood: ${mood} created`)
@@ -23,4 +23,4 @@ const CreateUserByName = async (req, res) => {
   }
 }
 
-export default CreateUserByName
+export default CreateJournalEntry
