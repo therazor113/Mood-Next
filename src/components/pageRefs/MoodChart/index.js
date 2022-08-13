@@ -2,14 +2,25 @@ import { Chart } from 'react-chartjs-2'
 
 import classes from './styles.module.scss'
 
-const MoodChart = ({ stats, statNumbers }) => {
+const MoodChart = ({ stats, statMoods }) => {
   const options = {
     responsive: true,
     scales: {
       y: {
         min: 1,
-        suggestedMax: 4,
-        stepSize: 1
+        suggestedMax: 5,
+        stepSize: 1,
+        ticks: {
+          precision: 0
+        }
+      }
+    },
+    datasets: {
+      line: {
+        borderColor: 'teal',
+        backgroundColor: (item) => {
+          return item.dataset.colors[item.raw - 1]
+        }
       }
     },
     plugins: {
@@ -18,7 +29,7 @@ const MoodChart = ({ stats, statNumbers }) => {
       },
       title: {
         display: true,
-        text: 'Mood by week'
+        text: 'Today\'s Moods'
       },
       tooltip: {
         callbacks: {
@@ -27,32 +38,26 @@ const MoodChart = ({ stats, statNumbers }) => {
           },
           labelColor: (item) => {
             return {
-              borderColor: item.dataset.color[item.raw - 1],
-              backgroundColor: item.dataset.color[item.raw - 1]
+              borderColor: item.dataset.colors[item.raw - 1],
+              backgroundColor: item.dataset.colors[item.raw - 1]
             }
           },
           labelTextColor: (item) => {
-            return item.dataset.color[item.raw - 1]
+            return item.dataset.colors[item.raw - 1]
           }
         }
       }
     }
   }
-  const labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  const colors = ['red', 'pink', 'purple', 'blue', 'lightblue', 'teal', 'gray', 'lightgreen', 'green']
+  const labels = ['8:00 AM', '10:00 AM', '12:00 AM', '2:00 PM', '4:00 PM', '6:00 PM', '8:00 PM', '10:00 PM']
+  const colors = ['red', 'pink', 'orange', 'blue', 'lightblue', 'purple', 'teal', 'lightgreen', 'green']
 
   const data = {
     labels,
     datasets: [{
+      colors,
       entry: stats,
-      color: colors,
-      data: statNumbers,
-      tension: 0.1,
-      borderColor: 'teal',
-      backgroundColor: [
-        colors[stats[0].number - 1],
-        colors[stats[1].number - 1]
-      ]
+      data: statMoods
     }]
   }
   return (
