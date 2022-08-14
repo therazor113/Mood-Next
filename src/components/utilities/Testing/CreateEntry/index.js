@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classes from './styles.module.scss'
 
-const CreateEntry = ({ userid }) => {
+const CreateEntry = ({ updateStats, userid }) => {
   const [inputEntry, setInputEntry] = useState('')
   const [inputMood, setInputMood] = useState('')
   const [message, setMessage] = useState('')
@@ -10,16 +10,22 @@ const CreateEntry = ({ userid }) => {
   const handleEnter = async () => {
     if (!inputEntry || !inputMood) return
     try {
+      const dateStamp = new Date(
+        new Date().getTime() - (new Date().getTimezoneOffset() * 60000)
+      ).toISOString().slice(0, 10)
+      const timeStamp = `${new Date().getHours()}:00:00`
+      const fullDate = dateStamp + ' ' + timeStamp
       const createRes = await fetch(`/api/UserDataApi/MoodData/CreateJournal/${userid}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ entry: inputEntry, mood: inputMood })
+        body: JSON.stringify({ entry: inputEntry, mood: inputMood, date: dateStamp, fullDate })
       })
       const data = await createRes.json()
       setMessage(data)
       setTimeout(() => setMessage(''), 1500)
+      updateStats()
     } catch (err) {
       console.error(err.message)
     }
