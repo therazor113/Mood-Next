@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import MoodChart from 'components/pageRefs/MoodChart'
-import CreateEntry from 'components/utilities/Testing/CreateEntry'
-import JournalList from 'components/pageRefs/JournalList'
+import CreateEntry from 'components/utilities/CreateEntryForm'
+import JournalList from 'components/pageRefs/EntriesList'
 
 export const getStaticPaths = async () => {
-  const res = await fetch('http://localhost:3000/api/UsersApi/UsersData')
+  const res = await fetch('http://localhost:3000/api/UsersApi/GetUsers')
   const data = await res.json()
   const paths = data.map(user => {
     return {
@@ -20,9 +20,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const name = context.params.name
-  const userRes = await fetch(`http://localhost:3000/api/UsersApi/UsersData/${name}`)
+  const userRes = await fetch(`http://localhost:3000/api/UsersApi/GetUsers/${name}`)
   const userData = await userRes.json()
-  const statsRes = await fetch(`http://localhost:3000/api/UserDataApi/MoodData/${userData.userid}`)
+  const statsRes = await fetch(`http://localhost:3000/api/UserDataApi/GetEntries/${userData.userid}`)
   const statMoods = []
   const statsData = await statsRes.json()
   for (let i = 0; i < statsData.length; i++) {
@@ -39,7 +39,7 @@ const UserInfo = ({ statsData, statMoods, user }) => {
   const [statsArr, setStatsArr] = useState(statsData)
 
   const updateStats = async () => {
-    const statsRes = await fetch(`http://localhost:3000/api/UserDataApi/MoodData/${user.userid}`)
+    const statsRes = await fetch(`http://localhost:3000/api/UserDataApi/GetEntries/${user.userid}`)
     const statMoods = []
     const statsData = await statsRes.json()
     for (let i = 0; i < statsData.length; i++) {
