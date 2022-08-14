@@ -2,13 +2,14 @@
   display: flex;
   flex: 1;
   padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid black;
   justify-content: center;
   align-items: center;
+  gap: 0.3rem;
   a {
+    line-height: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
   }
 }
