@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classes from './styles.module.scss'
 
-const CreateEntry = ({ journalId }) => {
+const CreateEntry = ({ updateStats, journalId }) => {
   const [inputEntry, setInputEntry] = useState('')
   const [inputMood, setInputMood] = useState('')
   const [message, setMessage] = useState('')
@@ -20,6 +20,7 @@ const CreateEntry = ({ journalId }) => {
       const data = await createRes.json()
       setMessage(data)
       setTimeout(() => setMessage(''), 1500)
+      updateStats()
     } catch (err) {
       console.error(err.message)
     }
