@@ -14,7 +14,7 @@ const CreateUserByName = async (req, res) => {
         res.json('Please use a different name')
       } else {
         const newUser = await pool.query('INSERT INTO users (name) VALUES ($1) RETURNING *', [name])
-        res.json(newUser.rows[0])
+        res.json(`User ${name} Created`)
       }
     } else {
       res.json('only \'POST\' requests here')
