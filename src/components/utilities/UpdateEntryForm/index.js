@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classes from './styles.module.scss'
 
-const UpdateEntryForm = ({ updateStats, journalId }) => {
+const UpdateEntryForm = ({ updateStats, updateWeekStats, entryId }) => {
   const [inputEntry, setInputEntry] = useState('')
   const [inputMood, setInputMood] = useState('')
   const [message, setMessage] = useState('')
@@ -10,7 +10,7 @@ const UpdateEntryForm = ({ updateStats, journalId }) => {
   const handleEnter = async () => {
     if (!inputEntry || !inputMood) return
     try {
-      const createRes = await fetch(`/api/UserDataApi/UpdateEntry/${journalId}`, {
+      const createRes = await fetch(`/api/UserDataApi/UpdateEntry/${entryId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -21,6 +21,7 @@ const UpdateEntryForm = ({ updateStats, journalId }) => {
       setMessage(data)
       setTimeout(() => setMessage(''), 1500)
       updateStats()
+      updateWeekStats()
     } catch (err) {
       console.error(err.message)
     }
