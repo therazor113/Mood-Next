@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import pool from 'lib/db'
 
 const UpdateEntryByid = async (req, res) => {
@@ -10,7 +9,6 @@ const UpdateEntryByid = async (req, res) => {
         [mood, entry, req.query.id]
       )
       res.json(`Journal Updated: entry ${entry} mood: ${mood}`)
-      // }
     } else {
       res.json('only \'PUT\' requests here')
     }
