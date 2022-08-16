@@ -1,6 +1,8 @@
-import { useState } from 'react'
-import MoodChart from 'components/pageRefs/MoodChart'
+import { useEffect, useState, useRef } from 'react'
 import CreateEntry from 'components/utilities/CreateEntryForm'
+import LineDay from 'components/pageRefs/MoodCharts/LineDay'
+import LineWeek from 'components/pageRefs/MoodCharts/LineWeek'
+import BarMonth from 'components/pageRefs/MoodCharts/BarMonth'
 
 export const getStaticPaths = async () => {
   const res = await fetch('http://localhost:3000/api/UsersApi/GetUsers')
@@ -21,26 +23,31 @@ export const getStaticProps = async (context) => {
   const name = context.params.name
   const userRes = await fetch(`http://localhost:3000/api/UsersApi/GetUsers/${name}`)
   const userData = await userRes.json()
-  const date = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 10)
-  const statsRes = await fetch(`http://localhost:3000/api/UserDataApi/GetEntries/${userData.userid}/${date}`)
-  const moodsArr = []
-  const statsData = await statsRes.json()
-  for (let i = 0; i < statsData.length; i++) {
-    moodsArr.push(statsData[i].mood)
-  }
 
   return {
-    props: { statsData, moodsArr, user: userData }
+    props: { user: userData }
   }
 }
 
-const UserInfo = ({ statsData, moodsArr, user }) => {
-  const [dayMoodsArr, setDayMoodsArr] = useState(moodsArr)
-  const [dayStatsArr, setDayStatsArr] = useState(statsData)
-  const [weekMoodsArr, setWeekMoodsArr] = useState('')
-  const [weekStatsArr, setWeekStatsArr] = useState('')
+const UserPage = ({ user }) => {
+  const [dayMoodsArr, setDayMoodsArr] = useState()
+  const [dayStatsArr, setDayStatsArr] = useState()
+  const [monthMoodsArr, setMonthMoodsArr] = useState()
+  const [monthStatsArr, setMonthStatsArr] = useState()
+  const [weekMoodsArr, setWeekMoodsArr] = useState()
+  const [weekStatsArr, setWeekStatsArr] = useState()
+  const updateRef = useRef(() => {})
 
-  const updateStats = async () => {
+  updateRef.current = () => {
+    DayStats()
+    WeekStats()
+    MonthStats()
+  }
+  useEffect(() => {
+    updateRef.current()
+  }, [])
+
+  const DayStats = async () => {
     const date = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 10)
     const statsRes = await fetch(`http://localhost:3000/api/UserDataApi/GetEntries/${user.userid}/${date}`)
     const moodsArr = []
@@ -51,52 +58,63 @@ const UserInfo = ({ statsData, moodsArr, user }) => {
     setDayMoodsArr(moodsArr)
     setDayStatsArr(dayData)
   }
-  const getWeekStats = async () => {
+
+  const MonthStats = async () => {
+    const month = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 7)
+    const res = await fetch(
+      `http://localhost:3000/api/UserDataApi/GetEntries/${user.userid}/GetMonth/${month}`
+    )
+    const monthData = await res.json()
+    const barData = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
+    for (let i = 0; i < barData.length; i++) {
+      if (monthData[1]?.[i]) {
+        barData[monthData[1][i].mood - 1] = monthData[1][i]
+      }
+    }
+    setMonthMoodsArr(barData)
+    setMonthStatsArr(monthData[0])
+  }
+
+  const WeekStats = async () => {
     const week = new Date().getWeek()
     const statsRes = await fetch(
       `http://localhost:3000/api/UserDataApi/GetEntries/${user.userid}/GetWeek/${week}`
     )
     const weekData = await statsRes.json()
-    const sorted = weekData.reduce((p, c) => {
-      if (!p[c.date]) p[c.date] = []
-      p[c.date].push(c)
-      return p
-    }, {})
-    const newArr = Object.entries(sorted)
-    const newArr2 = []
-    for (let i = 0; i < newArr.length; i++) {
-      const sorted2 = newArr[i][1].reduce((p, c) => {
-        p[c.date] = (p[c.date] || 0) + c.mood
-        return p
-      }, {})
-      newArr2.push(Object.entries(sorted2)[0][1] / newArr[i][1].length)
-    }
 
-    setWeekMoodsArr(newArr2)
-    setWeekStatsArr(newArr)
+    console.log(weekData[0])
+    setWeekMoodsArr(weekData[1])
+    setWeekStatsArr(weekData[0])
   }
   return (
     <div>
-      <button onClick={() => getWeekStats()}>Test</button>
+      <button onClick={() => updateRef.current()}>Update</button>
       <h2>{user.name}</h2>
       <h2>{user.userid}</h2>
-      <MoodChart
-      title={'Todays Moods'}
-      stats={dayStatsArr}
-      Moods={dayMoodsArr}
-      updateStats={updateStats}
-      />
-      {weekMoodsArr && weekStatsArr &&
-      <MoodChart
-      title={'This Weeks Moods'}
-      stats={weekStatsArr}
-      Moods={weekMoodsArr}
-      updateStats={updateStats}
-      updateWeekStats={getWeekStats}
+      <CreateEntry updateStats={updateRef.current} userid={user.userid} />
+      {dayMoodsArr && dayStatsArr &&
+      <LineDay
+        title={'Todays Moods'}
+        stats={dayStatsArr}
+        moods={dayMoodsArr}
+        updateStats={updateRef.current}
       />}
-      <CreateEntry updateStats={updateStats} userid={user.userid} />
+      {weekMoodsArr && weekStatsArr &&
+      <LineWeek
+        title={'This Weeks Moods'}
+        stats={weekStatsArr}
+        moods={weekMoodsArr}
+        updateStats={updateRef.current}
+      />}
+      {monthMoodsArr && monthStatsArr &&
+      <BarMonth
+        title={'Monthly Stats'}
+        stats={monthStatsArr}
+        moods={monthMoodsArr}
+        updateStats={updateRef.current}
+      />}
     </div>
   )
 }
 
-export default UserInfo
+export default UserPage
