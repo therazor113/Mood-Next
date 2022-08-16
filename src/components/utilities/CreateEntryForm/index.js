@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import classes from './styles.module.scss'
+import CreateEntry from './PostEntry'
 
 const CreateEntryForm = ({ updateStats, userid }) => {
   const [inputEntry, setInputEntry] = useState('')
@@ -10,23 +11,7 @@ const CreateEntryForm = ({ updateStats, userid }) => {
   const handleEnter = async () => {
     if (!inputEntry || !inputMood) return
     try {
-      const timeStamp = {
-        date: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
-        hour: new Date().getHours(),
-        weekDay: new Date().getDay() === 0 ? 6 : new Date().getDay() - 1,
-        weekYear: new Date().getWeek()
-      }
-      const createRes = await fetch(`/api/UserDataApi/CreateEntry/${userid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ entry: inputEntry, mood: inputMood, timeStamp })
-      })
-      const data = await createRes.json()
-      setMessage(data)
-      setTimeout(() => setMessage(''), 1500)
-      updateStats()
+      CreateEntry(updateStats, setMessage, inputEntry, inputMood, userid)
     } catch (err) {
       console.error(err.message)
     }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import classes from './styles.module.scss'
+import UpdateEntry from './UpdateEntry'
 
 const UpdateEntryForm = ({ updateStats, entryId }) => {
   const [inputEntry, setInputEntry] = useState('')
@@ -10,17 +11,7 @@ const UpdateEntryForm = ({ updateStats, entryId }) => {
   const handleEnter = async () => {
     if (!inputEntry || !inputMood) return
     try {
-      const createRes = await fetch(`/api/UserDataApi/UpdateEntry/${entryId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ entry: inputEntry, mood: inputMood })
-      })
-      const data = await createRes.json()
-      setMessage(data)
-      setTimeout(() => setMessage(''), 1500)
-      updateStats()
+      await UpdateEntry(updateStats, setMessage, inputEntry, inputMood, entryId)
     } catch (err) {
       console.error(err.message)
     }
