@@ -2,12 +2,15 @@ import pool from 'lib/db'
 
 const getAllMoodsById = async (req, res) => {
   try {
-    console.log(req.query)
-    const Moods = await pool.query(
-      'SELECT id, mood, journal, date, time, weekday FROM moods WHERE userid = $1 AND weekyear = $2 ORDER BY id LIMIT 7',
+    const moods = await pool.query(
+      'SELECT weekday, json_agg(json_build_object(\'id\', id, \'mood\', mood, \'journal\', journal) ORDER BY id) AS entries FROM moods WHERE userid = $1 AND weekyear = $2 GROUP BY weekday ORDER BY weekday',
       [req.query.userid, req.query.week]
     )
-    res.json(Moods.rows)
+    const avgMoods = await pool.query(
+      'SELECT weekday, ROUND(AVG(mood),2) AS avg FROM moods WHERE userid = $1 AND weekyear = $2 GROUP BY weekday ORDER BY weekday',
+      [req.query.userid, req.query.week]
+    )
+    res.json([moods.rows, avgMoods.rows])
   } catch (err) {
     console.error(err.message)
   }
