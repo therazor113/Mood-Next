@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classes from './styles.module.scss'
 
-const UpdateEntryForm = ({ updateStats, updateWeekStats, entryId }) => {
+const UpdateEntryForm = ({ updateStats, entryId }) => {
   const [inputEntry, setInputEntry] = useState('')
   const [inputMood, setInputMood] = useState('')
   const [message, setMessage] = useState('')
@@ -21,7 +21,6 @@ const UpdateEntryForm = ({ updateStats, updateWeekStats, entryId }) => {
       setMessage(data)
       setTimeout(() => setMessage(''), 1500)
       updateStats()
-      updateWeekStats()
     } catch (err) {
       console.error(err.message)
     }
