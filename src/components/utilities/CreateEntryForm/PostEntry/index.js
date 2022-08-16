@@ -1,7 +1,7 @@
 import { getDate, getHour, getWeekDay, getWeekYear } from 'helpers/TimeStamps'
 import useAPI from 'hooks/useAPI'
 
-const PostEntry = async (updateStats, setMessage, inputEntry, inputMood, userid) => {
+const CreateEntry = async (updateStats, setMessage, inputEntry, inputMood, userid) => {
   const timeStamp = {
     date: getDate().slice(0, 10),
     hour: getHour(),
@@ -15,4 +15,4 @@ const PostEntry = async (updateStats, setMessage, inputEntry, inputMood, userid)
   updateStats()
 }
 
-export default PostEntry
+export default CreateEntry
