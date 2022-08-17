@@ -1,8 +1,7 @@
-import useAPI from 'hooks/useAPI'
+import { getDate } from 'helpers/TimeStamps'
 
-const DayStats = async (setStats, setMoods, user, dateStamp) => {
-  const path = `/UserDataApi/GetEntries/${user.userid}/${dateStamp}`
-  const data = await useAPI(path, 'GET')
+const DayStats = async (handleFetch, user, setStats, setMoods) => {
+  const data = await handleFetch(`/UserDataApi/GetEntries/${user.userid}/${getDate().slice(0, 10)}`, 'GET')
   setStats(prev => ({ ...prev, day: data }))
   setMoods(prev => {
     const dayArr = []

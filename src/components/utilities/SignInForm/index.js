@@ -1,20 +1,24 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import useAPI from 'hooks/useAPI'
+import UserSignIn from './UserSignIn'
 
 import classes from './styles.module.scss'
 
 const SignInForm = () => {
   const [inputValue, setInputValue] = useState('')
+  const [message, setMessage] = useState('')
+  const [handleFetch] = useAPI()
   const router = useRouter()
 
   const handleEnter = async () => {
     if (!inputValue) return
-    try {
-      const res = await fetch(`/api/UsersApi/GetUsers/${inputValue}`)
-      const data = await res.json()
+    const data = await UserSignIn(handleFetch, inputValue)
+    if (!data) {
+      setMessage('User does not exist')
+      setTimeout(() => setMessage(''), 1500)
+    } else {
       router.push('/[name]', `/${data.name}`)
-    } catch (err) {
-      console.error(err.message)
     }
   }
 
@@ -31,6 +35,7 @@ const SignInForm = () => {
 
   return (
     <main className={classes.container}>
+      <p className={classes.message}>{message}</p>
       <button onClick={handleEnter}>Login</button>
       <input value={inputValue} onChange={handleChange} onKeyUp={handleKeyUp} autoFocus/>
     </main>

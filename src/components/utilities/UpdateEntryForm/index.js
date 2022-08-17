@@ -2,19 +2,20 @@ import { useState } from 'react'
 
 import classes from './styles.module.scss'
 import UpdateEntry from './UpdateEntry'
+import useAPI from 'hooks/useAPI'
 
 const UpdateEntryForm = ({ updateStats, entryId }) => {
   const [inputEntry, setInputEntry] = useState('')
   const [inputMood, setInputMood] = useState('')
   const [message, setMessage] = useState('')
+  const [handleFetch] = useAPI()
 
   const handleEnter = async () => {
     if (!inputEntry || !inputMood) return
-    try {
-      await UpdateEntry(updateStats, setMessage, inputEntry, inputMood, entryId)
-    } catch (err) {
-      console.error(err.message)
-    }
+    const data = await UpdateEntry(handleFetch, inputEntry, inputMood, entryId)
+    setMessage(data)
+    setTimeout(() => setMessage(''), 1500)
+    updateStats()
   }
 
   const handleInputEntry = (e) => {

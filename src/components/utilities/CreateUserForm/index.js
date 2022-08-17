@@ -1,27 +1,19 @@
 import { useState } from 'react'
+import CreateUser from './CreateUser'
+import useAPI from 'hooks/useAPI'
 
 import classes from './styles.module.scss'
 
 const CreateUserForm = () => {
   const [inputValue, setInputValue] = useState('')
   const [message, setMessage] = useState('')
+  const [handleFetch] = useAPI()
 
   const handleEnter = async () => {
     if (!inputValue) return
-    try {
-      const createRes = await fetch('/api/UsersApi/CreateUser', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: inputValue })
-      })
-      const data = await createRes.json()
-      setMessage(data)
-      setTimeout(() => setMessage(''), 1500)
-    } catch (err) {
-      console.error(err.message)
-    }
+    const data = await CreateUser(handleFetch, inputValue)
+    setMessage(data)
+    setTimeout(() => setMessage(''), 1500)
   }
 
   const handleChange = (e) => {

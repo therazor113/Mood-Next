@@ -1,11 +1,7 @@
-import useAPI from 'hooks/useAPI'
-
-const UpdateEntry = async (updateStats, setMessage, inputEntry, inputMood, entryId) => {
+const UpdateEntry = async (handleFetch, inputEntry, inputMood, entryId) => {
   const path = `/UserDataApi/UpdateEntry/${entryId}`
-  const data = await useAPI(path, 'PUT', { entry: inputEntry, mood: inputMood })
-  setMessage(data)
-  setTimeout(() => setMessage(''), 1500)
-  updateStats()
+  const body = { entry: inputEntry, mood: inputMood }
+  return await handleFetch(path, 'PUT', body)
 }
 
 export default UpdateEntry
