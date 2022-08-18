@@ -1,4 +1,7 @@
+import { useContext, useEffect } from 'react'
+import FaviconContext from 'contexts/FaviconContext'
 import UserPageRef from 'components/pageRefs/UserPageRef'
+import Layout from 'components/core/Layout'
 
 export const getStaticPaths = async () => {
   const res = await fetch('http://localhost:3000/api/UsersApi/GetUsers')
@@ -25,12 +28,16 @@ export const getStaticProps = async (context) => {
   }
 }
 
-const userPage = ({ user }) => {
+const UserCharts = ({ user }) => {
+  const { setFavicon } = useContext(FaviconContext)
+  useEffect(() => {
+    setFavicon('/chart.ico')
+  }, [setFavicon])
   return (
-    <div>
+    <Layout title={'charts'}>
       <UserPageRef user={user} />
-    </div>
+    </Layout>
   )
 }
 
-export default userPage
+export default UserCharts
