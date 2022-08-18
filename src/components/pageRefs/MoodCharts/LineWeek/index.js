@@ -23,7 +23,7 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
       line: {
         borderColor: 'teal',
         backgroundColor: (item) => {
-          return item.dataset.colors[Math.round(item.raw)]
+          return item.dataset.colors[Math.round(item.raw - 1)]
         }
       }
     },
@@ -46,8 +46,8 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
           },
           labelColor: (item) => {
             return {
-              borderColor: item.dataset.colors[Math.round(item.raw)],
-              backgroundColor: item.dataset.colors[Math.round(item.raw)]
+              borderColor: item.dataset.colors[Math.round(item.raw - 1)],
+              backgroundColor: item.dataset.colors[Math.round(item.raw - 1)]
             }
           },
           labelTextColor: (item) => {

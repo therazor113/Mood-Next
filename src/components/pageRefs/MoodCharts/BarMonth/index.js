@@ -23,7 +23,7 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
     datasets: {
       bar: {
         backgroundColor: (item) => {
-          return item.dataset.colors[item.raw - 1]
+          return item.dataset.colors[item.index]
         }
       }
     },
@@ -42,12 +42,12 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
           },
           labelColor: (item) => {
             return {
-              borderColor: item.dataset.colors[item.raw - 1],
-              backgroundColor: item.dataset.colors[item.raw - 1]
+              borderColor: item.dataset.colors[item.dataIndex],
+              backgroundColor: item.dataset.colors[item.dataIndex]
             }
           },
           labelTextColor: (item) => {
-            return item.dataset.colors[item.raw - 1]
+            return item.dataset.colors[item.dataIndex]
           }
         }
       }
