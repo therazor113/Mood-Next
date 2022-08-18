@@ -1,30 +1,49 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { useRouter } from 'next/router'
+import FaviconContext from 'contexts/FaviconContext'
+import NameField from 'components/utilities/formFields/NameField'
+import PasswordField from 'components/utilities/formFields/PasswordField'
+import RetypeField from 'components/utilities/formFields/RetypeField'
+import FetchSignIn from 'components/pageRefs/LoginCard/SignInForm/FetchSignIn'
+import FormValidation from 'components/utilities/FormValidation'
 import CreateUser from './CreateUser'
 import useAPI from 'hooks/useAPI'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faLock, faUnlock, faLockOpen, faUser } from '@fortawesome/free-solid-svg-icons'
 import classes from './styles.module.scss'
 
 const CreateUserForm = () => {
   const [inputValue, setInputValue] = useState({ name: '', password: '', retype: '' })
-  const [leftIcon, setLeftIcon] = useState({ passInput: false, retypeInput: false })
-  const [show, setShow] = useState({ passInput: false, retypeInput: false })
+  const [valid, setValid] = useState({ name: true, password: true, retype: true })
+  const messageTimer = () => setTimeout(() => setMessage(''), 2000)
+  const { setFavicon } = useContext(FaviconContext)
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [handleFetch] = useAPI()
-  const loading = null
+  const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (inputValue.password !== inputValue.retype) {
-      setMessage('Passwords must match')
-      setTimeout(() => setMessage(''), 1500)
+    const inputValidity = FormValidation(inputValue, setValid, setMessage, messageTimer)
+    if (!inputValidity) {
+      setFavicon('/error.ico')
       return
     }
-    if (!inputValue) return
+
+    setLoading(true)
     const data = await CreateUser(handleFetch, inputValue)
-    setMessage(data)
-    setTimeout(() => setMessage(''), 1500)
+
+    if (!data) {
+      setLoading(false)
+      setMessage('Please use a different name')
+      setValid({ name: false, password: true, retype: true })
+    } else {
+      setMessage(data)
+      setValid({ name: true, password: true, retype: true })
+      setFavicon('/create.ico')
+      const userData = await FetchSignIn(handleFetch, inputValue)
+      router.push('/[name]', `/${userData.name}`)
+    }
+    messageTimer()
   }
 
   const handleChange = (e) => {
@@ -37,73 +56,28 @@ const CreateUserForm = () => {
     <div className={classes.container}>
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className={classes.formContainer}>
-          <div style={{ width: '100%' }}>
-            <FontAwesomeIcon
-              icon={faUser}
-              className={classes.leftIcon}
-            />
-            <span className={classes.inputCursor} />
-            <input
-              required
-              autoFocus
-              type='text'
-              name='name'
-              aria-label='Name'
-              placeholder='Name'
-              value={inputValue.name}
-              onChange={handleChange}
-            />
-          </div>
-          <div style={{ width: '100%' }}>
-            <FontAwesomeIcon
-              icon={show.passInput ? faLockOpen : leftIcon.passInput ? faUnlock : faLock}
-              className={classes.leftIcon}
-            />
-            <span className={classes.inputCursor} />
-            <input
-              required
-              type={show.passInput ? 'text' : 'password'}
-              name='password'
-              aria-label='Password'
-              placeholder='Password'
-              value={inputValue.password}
-              onChange={handleChange}
-              onFocus={() => setLeftIcon({ ...leftIcon, passInput: true })}
-              onBlur={() => setLeftIcon({ ...leftIcon, passInput: false })}
-            />
-            <FontAwesomeIcon
-              icon={show.passInput ? faEye : faEyeSlash}
-              className={classes.rightIcon}
-              onMouseDown={() => setShow({ ...show, passInput: !show.passInput })}
-            />
-          </div>
-          <div style={{ width: '100%' }}>
-            <FontAwesomeIcon
-              icon={show.retypeInput ? faLockOpen : leftIcon.retypeInput ? faUnlock : faLock}
-              className={classes.leftIcon}
-            />
-            <span className={classes.inputCursor} />
-            <input
-              required
-              type={show.retypeInput ? 'text' : 'password'}
-              name='retype'
-              aria-label='Retype Password'
-              placeholder='Retype Password'
-              value={inputValue.retype}
-              onChange={handleChange}
-              onFocus={() => setLeftIcon({ ...leftIcon, retypeInput: true })}
-              onBlur={() => setLeftIcon({ ...leftIcon, retypeInput: false })}
-            />
-            <FontAwesomeIcon
-              icon={show.retypeInput ? faEye : faEyeSlash}
-              className={classes.rightIcon}
-              onMouseDown={() => setShow({ ...show, retypeInput: !show.retypeInput })}
-            />
-          </div>
+          <NameField
+            classes={classes}
+            inputValue={inputValue}
+            handleChange={handleChange}
+            valid={valid}
+          />
+          <PasswordField
+            classes={classes}
+            inputValue={inputValue}
+            handleChange={handleChange}
+            valid={valid}
+          />
+          <RetypeField
+            classes={classes}
+            inputValue={inputValue}
+            handleChange={handleChange}
+            valid={valid}
+          />
           <input
             type='submit'
             value={loading ? 'Signing in...' : 'Create Account'}
-            className={classes.submit}
+            className={loading ? classes.disabled : classes.submit}
             disabled={loading}
           />
         </div>
