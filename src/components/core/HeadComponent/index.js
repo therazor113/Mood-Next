@@ -1,11 +1,14 @@
+import { useContext } from 'react'
 import Head from 'next/head'
+import FaviconContext from 'contexts/FaviconContext'
 
-const HeadComponent = () => {
+const HeadComponent = ({ title }) => {
+  const { favicon } = useContext(FaviconContext)
   return (
     <Head>
-      <title>Mood-next</title>
-      <meta name="description" content="Created with nextjs" />
-      <link rel="icon" href="/favicon.ico" />
+      <title>{`Mood-Next | ${title}`}</title>
+      <meta name="description" content="Mood tracking web application" />
+      <link rel="icon" href={favicon} />
     </Head>
   )
 }
