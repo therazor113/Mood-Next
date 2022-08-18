@@ -1,29 +1,44 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
+import FaviconContext from 'contexts/FaviconContext'
+import NameField from 'components/utilities/formFields/NameField'
+import PasswordField from 'components/utilities/formFields/PasswordField'
+import FormValidation from 'components/utilities/FormValidation'
 import FetchSignIn from './FetchSignIn'
 import useAPI from 'hooks/useAPI'
 import Link from 'next/link'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faLock, faUnlock, faLockOpen, faUser } from '@fortawesome/free-solid-svg-icons'
 import classes from './styles.module.scss'
 
 const SignInForm = () => {
-  const [inputValue, setInputValue] = useState({ name: '', password: '', retype: '' })
-  const [leftIcon, setLeftIcon] = useState(false)
-  const [show, setShow] = useState(false)
+  const [inputValue, setInputValue] = useState({ name: '', password: '' })
+  const [valid, setValid] = useState({ name: true, password: true })
+  const messageTimer = () => setTimeout(() => setMessage(''), 2000)
+  const { setFavicon } = useContext(FaviconContext)
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [handleFetch] = useAPI()
   const router = useRouter()
-  const loading = null
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const inputValidity = FormValidation(inputValue, setValid, setMessage, messageTimer)
+    if (!inputValidity) {
+      setFavicon('/error.ico')
+      return
+    }
+
+    setLoading(true)
     const data = await FetchSignIn(handleFetch, inputValue)
+
     if (!data) {
-      setMessage('User does not exist, please try again or create an account')
-      setTimeout(() => setMessage(''), 1500)
+      setValid({ name: false, password: false })
+      setLoading(false)
+      setMessage('Name or password is incorrect, please try again or create an account')
+      messageTimer()
     } else {
+      setFavicon('/login.ico')
+      setValid({ name: true, password: true })
       router.push('/[name]', `/${data.name}`)
     }
   }
@@ -32,52 +47,25 @@ const SignInForm = () => {
     if (e.target.name === 'name' && e.target.value.length > 25) return
     if (/password|retype/.test(e.target.name) && e.target.value.length > 45) return
     setInputValue({ ...inputValue, [e.target.name]: e.target.value })
+    setValid({ name: true, password: true })
   }
 
   return (
     <div className={classes.container}>
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className={classes.formContainer}>
-          <div style={{ width: '100%' }}>
-            <FontAwesomeIcon
-              icon={faUser}
-              className={classes.leftPassIcon}
-            />
-            <span className={classes.inputCursor} />
-            <input
-              required
-              autoFocus
-              type='text'
-              name='name'
-              aria-label='Name'
-              placeholder='Name'
-              value={inputValue.name}
-              onChange={handleChange}
-            />
-          </div>
-          <div style={{ width: '100%' }}>
-            <FontAwesomeIcon
-              icon={show ? faLockOpen : leftIcon ? faUnlock : faLock}
-              className={classes.leftPassIcon}
-            />
-            <span className={classes.inputCursor} />
-            <input
-              required
-              type={show ? 'text' : 'password'}
-              name='password'
-              aria-label='Password'
-              placeholder='Password'
-              value={inputValue.password}
-              onChange={handleChange}
-              onFocus={() => setLeftIcon(true)}
-              onBlur={() => setLeftIcon(false)}
-            />
-            <FontAwesomeIcon
-              icon={show ? faEye : faEyeSlash}
-              className={classes.rightPassIcon}
-              onMouseDown={() => setShow(!show)}
-            />
-          </div>
+          <NameField
+            classes={classes}
+            inputValue={inputValue}
+            handleChange={handleChange}
+            valid={valid}
+          />
+          <PasswordField
+            classes={classes}
+            inputValue={inputValue}
+            handleChange={handleChange}
+            valid={valid}
+          />
           <div className={classes.formLinks}>
             <label>
                 <input
