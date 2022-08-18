@@ -21,6 +21,7 @@ const EntriesList = ({ statsArr, cardIndex, updateStats, cardData }) => {
           } return (null)
         })
       }
+
       {statsArr[cardIndex]?.entries && cardIndex !== null &&
         statsArr[cardIndex]?.entries.map((userStats) => (
           <ul style={{ listStyleType: 'none' }}
