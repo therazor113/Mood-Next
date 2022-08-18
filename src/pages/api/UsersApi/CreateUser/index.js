@@ -11,7 +11,7 @@ const CreateUserByName = async (req, res) => {
       }
       const userExists = await pool.query('SELECT EXISTS (SELECT name FROM users WHERE name = $1)', [name])
       if (userExists.rows[0].exists) {
-        res.json('Please use a different name')
+        res.json(false)
       } else {
         const newUser = await pool.query('INSERT INTO users (name) VALUES ($1) RETURNING *', [name])
         res.json(`User ${name} Created`)
