@@ -38,6 +38,7 @@
     }
   }
   .submit {
+    margin-top: 1rem;
     padding: 10px;
     font-size: 20px;
     font-weight: 600;
@@ -52,10 +53,10 @@
     }
   }
 }
-.rightIcon {
+.rightInputIcon {
   @include rightInputIcon;
 }
-.leftIcon {
+.leftInputIcon {
   @include leftInputIcon;
 }
 .inputCursor {
