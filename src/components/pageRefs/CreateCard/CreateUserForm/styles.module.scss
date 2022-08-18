@@ -1,0 +1,63 @@
+@import "styles/mixins";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+}
+
+.formContainer {
+  @include formContainer;
+  p {
+    color: rgba(235, 235, 235, 0.4);
+    font-size: 15px;
+    cursor: pointer;
+    transition: color 0.2s, text-decoration-color 0.2s;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    &:hover {
+      color: rgba(60, 170, 125, 0.7);
+      text-decoration-color: rgba(60, 170, 125, 0.7);
+    }
+  }
+  .formLinks {
+    @include checkBox;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    label {
+      transition: color 0.2s;
+      user-select: none;
+      color: rgba(235, 235, 235, 0.5);
+      display: flex;
+      gap: 0.3rem;
+      cursor: pointer;
+      &:hover {
+        color: rgba(60, 170, 125, 0.85);
+      }
+    }
+  }
+  .submit {
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover {
+      color: rgba(235, 235, 235, 0.8);
+      border: 2px solid rgba(60, 170, 125, 0.5);
+    }
+    &:active {
+      color: rgba(235, 235, 235, 1);
+      border: 2px solid rgba(60, 170, 125, 1);
+    }
+  }
+}
+.rightIcon {
+  @include rightInputIcon;
+}
+.leftIcon {
+  @include leftInputIcon;
+}
+.inputCursor {
+  @include inputCursor;
+}
