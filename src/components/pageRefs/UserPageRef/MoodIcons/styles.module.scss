@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  gap: 0.7rem;
+  svg {
+    transition: transform 0.25s;
+    font-size: 40px;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.5);
+    }
+    &:active {
+      transform: scale(1.3)
+    }
+  }
+}
