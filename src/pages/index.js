@@ -3,10 +3,10 @@ import FaviconContext from 'contexts/FaviconContext'
 import Layout from 'components/core/Layout'
 import LoginCard from 'components/pageRefs/LoginCard'
 
-function Home () {
+const Home = () => {
   const { setFavicon } = useContext(FaviconContext)
   useEffect(() => {
-    setFavicon('/login.ico')
+    setFavicon('/favicon.ico')
   }, [setFavicon])
   return (
     <Layout title={'Login'}>
