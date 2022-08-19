@@ -17,9 +17,9 @@ const UserPageRef = ({ user }) => {
   const router = useRouter()
 
   updateRef.current = () => {
-    DayStats(handleFetch, user, setStats, setMoods)
-    WeekStats(handleFetch, user, setStats, setMoods)
-    MonthStats(handleFetch, user, setStats, setMoods)
+    DayStats(handleFetch, user, setStats, setMoods) //
+    WeekStats(handleFetch, user, setStats, setMoods) // Maybe combine later?
+    MonthStats(handleFetch, user, setStats, setMoods) //
   }
 
   useEffect(() => {
@@ -31,7 +31,9 @@ const UserPageRef = ({ user }) => {
       <button onClick={() => router.push('/')}>Back</button>
       <h2>{user.name}</h2>
       <h2>{user.userid}</h2>
+
       <CreateEntryForm updateStats={updateRef.current} userid={user.userid} />
+
       <LineDay
         title={'Todays Moods'}
         stats={stats.day}
