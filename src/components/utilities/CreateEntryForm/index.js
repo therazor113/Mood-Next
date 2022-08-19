@@ -1,18 +1,19 @@
 import { useState } from 'react'
+import MoodIcons from 'components/pageRefs/UserPageRef/MoodIcons'
 import CreateEntry from './CreateEntry'
 import useAPI from 'hooks/useAPI'
 
 import classes from './styles.module.scss'
 
 const CreateEntryForm = ({ updateStats, userid }) => {
+  const [currentMood, setCurrentMood] = useState(null)
   const [inputEntry, setInputEntry] = useState('')
-  const [inputMood, setInputMood] = useState('')
   const [message, setMessage] = useState('')
   const [handleFetch] = useAPI()
 
   const handleEnter = async () => {
-    if (!inputEntry || !inputMood) return
-    const data = await CreateEntry(handleFetch, inputEntry, inputMood, userid)
+    if (!inputEntry || !currentMood) return
+    const data = await CreateEntry(handleFetch, inputEntry, currentMood, userid)
     setMessage(data)
     setTimeout(() => setMessage(''), 1500)
     updateStats()
@@ -21,11 +22,6 @@ const CreateEntryForm = ({ updateStats, userid }) => {
   const handleInputEntry = (e) => {
     if (e.target.value.length > 255) return
     setInputEntry(e.target.value)
-  }
-
-  const handleInputMood = (e) => {
-    if (!/^[1-9]*$/g.test(e.target.value) || e.target.value.length > 1) return
-    setInputMood(e.target.value)
   }
 
   const handleKeyUp = (e) => {
@@ -37,15 +33,9 @@ const CreateEntryForm = ({ updateStats, userid }) => {
   return (
     <main className={classes.container}>
       <p className={classes.message}>{message}</p>
+      {currentMood}
       <button onClick={handleEnter}>Create</button>
-      <input
-        placeholder='mood: 1-9'
-        className={classes.moodInput}
-        value={inputMood}
-        onChange={handleInputMood}
-        onKeyUp={handleKeyUp}
-        autoFocus
-      />
+      <MoodIcons setCurrentMood={setCurrentMood}/>
       <input
         placeholder='Journal Entry'
         className={classes.entryInput}
