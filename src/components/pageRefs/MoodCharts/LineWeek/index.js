@@ -7,23 +7,87 @@ import classes from './styles.module.scss'
 const LineWeek = ({ title, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
+  const colors = [
+    'rgba(255, 0, 0, 0.7)',
+    'rgba(255, 68, 0, 0.7)',
+    'rgba(255, 119, 0, 0.7)',
+    'rgba(255, 204, 0, 0.7)',
+    'rgba(255, 255, 0, 0.7)',
+    'rgba(200, 225, 0, 0.7)',
+    'rgba(120, 200, 0, 0.7)',
+    'rgba(55, 225, 0, 0.7)',
+    'rgba(0, 200, 0, 0.9)'
+  ]
+  const solidColors = [
+    'rgba(255, 0, 0)',
+    'rgba(255, 68, 0)',
+    'rgba(255, 119, 0)',
+    'rgba(255, 204, 0)',
+    'rgba(255, 255, 0)',
+    'rgba(200, 225, 0)',
+    'rgba(120, 200, 0)',
+    'rgba(55, 225, 0)',
+    'rgba(0, 200, 0)'
+  ]
+  const icons = [
+    '\uf567',
+    '\uf5b3',
+    '\uf119',
+    '\uf57a',
+    '\uf11a',
+    '\uf118',
+    '\uf5b8',
+    '\uf582',
+    '\uf59a'
+  ]
   const options = {
     responsive: true,
     scales: {
       y: {
-        min: 1,
-        suggestedMax: 5,
+        beginAtZero: false,
+        suggestedMax: 9,
         stepSize: 1,
         ticks: {
-          precision: 0
+          padding: 10,
+          font: {
+            size: '25'
+          },
+          color: (item) => {
+            return colors[item.index]
+          },
+          callback: (item, index) => {
+            return icons[index]
+          }
         }
+      },
+      x: {
+        ticks: {
+          beginAtZero: true,
+          font: {
+            size: '15',
+            weight: '600'
+          }
+        }
+      }
+    },
+    elements: {
+      point: {
+        borderWidth: 0,
+        radius: 5,
+        backgroundColor: 'rgba(0,0,0,0)'
+      }
+    },
+    layout: {
+      padding: {
+        left: 13,
+        bottom: 15,
+        right: 30
       }
     },
     datasets: {
       line: {
-        borderColor: 'teal',
         backgroundColor: (item) => {
-          return item.dataset.colors[Math.round(item.raw - 1)]
+          return item.dataset.solidColors[Math.round(item.raw - 1)]
         }
       }
     },
@@ -33,16 +97,23 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
       },
       title: {
         display: true,
-        text: title
+        text: title,
+        font: {
+          size: '18'
+        }
       },
       tooltip: {
+        bodyFont: {
+          size: 15,
+          weight: 600
+        },
         callbacks: {
           label: (item) => {
             const entryList = []
             for (let i = 0; i < item.dataset.entry[item.dataIndex].entries.length; i++) {
               entryList.push(i + 1 + ': ' + item.dataset.entry[item.dataIndex].entries[i].journal)
             }
-            return `Entries: ${entryList.join('\r\n')}`
+            return `Entries: ${entryList.join(' ')}`
           },
           labelColor: (item) => {
             return {
@@ -57,16 +128,30 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
       }
     }
   }
-  const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  const colors = ['red', 'pink', 'orange', 'blue', 'lightblue', 'purple', 'teal', 'lightgreen', 'green']
+
+  const createGradient = (ctx, area) => {
+    const colorStart = 'rgb(255, 0, 0)'
+    const colorMid = 'rgba(200, 225, 0)'
+    const colorEnd = 'rgb(0, 200, 0)'
+    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top)
+    gradient.addColorStop(0, colorStart)
+    gradient.addColorStop(0.5, colorMid)
+    gradient.addColorStop(1, colorEnd)
+
+    return gradient
+  }
 
   const data = {
-    labels,
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [{
       colors,
+      solidColors,
       type: 'line',
       entry: stats,
-      data: moods.map(o => o.avg)
+      data: moods.map(o => o.avg),
+      segment: {
+        borderColor: () => createGradient(chartRef.current.ctx, chartRef.current.chartArea)
+      }
     }]
   }
 

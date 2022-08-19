@@ -8,16 +8,65 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const [cardData, setCardData] = useState([])
   const chartRef = useRef()
+  const colors = [
+    'rgba(255, 0, 0, 0.7)',
+    'rgba(255, 68, 0, 0.7)',
+    'rgba(255, 119, 0, 0.7)',
+    'rgba(255, 204, 0, 0.7)',
+    'rgba(255, 255, 0, 0.7)',
+    'rgba(200, 225, 0, 0.7)',
+    'rgba(120, 200, 0, 0.7)',
+    'rgba(55, 225, 0, 0.7)',
+    'rgba(0, 200, 0, 0.9)'
+  ]
+  const icons = [
+    '\uf567',
+    '\uf5b3',
+    '\uf119',
+    '\uf57a',
+    '\uf11a',
+    '\uf118',
+    '\uf5b8',
+    '\uf582',
+    '\uf59a'
+  ]
   const options = {
     responsive: true,
     scales: {
       y: {
-        min: 0,
+        beginAtZero: true,
         suggestedMax: 5,
         stepSize: 1,
         ticks: {
-          precision: 0
+          precision: 0,
+          font: {
+            size: '18',
+            weight: '500'
+          }
         }
+      },
+      x: {
+        beginAtZero: false,
+        suggestedMax: 9,
+        stepSize: 1,
+        ticks: {
+          color: (item) => {
+            return colors[item.index]
+          },
+          font: {
+            size: '25'
+          },
+          callback: (item, index) => {
+            return icons[index]
+          }
+        }
+      }
+    },
+    layout: {
+      padding: {
+        left: 25,
+        bottom: 13,
+        right: 30
       }
     },
     datasets: {
@@ -33,9 +82,16 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
       },
       title: {
         display: true,
-        text: title
+        text: title,
+        font: {
+          size: '18'
+        }
       },
       tooltip: {
+        bodyFont: {
+          size: 15,
+          weight: 600
+        },
         callbacks: {
           title: (item) => {
             return moods[item[0].dataIndex]?.mood + '\'s'
@@ -53,11 +109,9 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
       }
     }
   }
-  const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  const colors = ['red', 'orange', 'pink', 'blue', 'lightblue', 'purple', 'teal', 'lightgreen', 'green']
 
   const data = {
-    labels,
+    labels: icons,
     datasets: [{
       colors,
       type: 'bar',
