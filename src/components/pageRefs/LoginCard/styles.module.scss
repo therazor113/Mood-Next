@@ -1,9 +1,12 @@
+@use 'styles/variables' as *;
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.6rem;
 }
+
 .header {
   display: flex;
   flex-direction: column;
@@ -18,6 +21,7 @@
     text-align: center;
   }
 }
+
 .footer {
   display: flex;
   gap: 0.3rem;
@@ -25,9 +29,9 @@
     cursor: pointer;
     transition: color 0.2s;
     font-weight: 500;
-    color: rgba(60, 170, 125, 0.75);
+    color: $green-faded;
     &:hover {
-      color: rgba(60, 170, 125, 1);
+      color: $green-light;
     }
   }
 }

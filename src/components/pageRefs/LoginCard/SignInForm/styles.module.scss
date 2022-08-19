@@ -1,4 +1,5 @@
-@import "styles/mixins";
+@use 'styles/variables' as *;
+@use "styles/mixins" as *;
 
 .container {
   display: flex;
@@ -9,15 +10,15 @@
 .formContainer {
   @include formContainer;
   p {
-    color: rgba(235, 235, 235, 0.4);
+    color: $gray-dark;
     font-size: 15px;
     cursor: pointer;
     transition: color 0.2s, text-decoration-color 0.2s;
     text-decoration: underline;
     text-decoration-color: transparent;
     &:hover {
-      color: rgba(60, 170, 125, 0.7);
-      text-decoration-color: rgba(60, 170, 125, 0.7);
+      color: $green-faded;
+      text-decoration-color: $green-faded;
     }
   }
   .formLinks {
@@ -28,27 +29,13 @@
     label {
       transition: color 0.2s;
       user-select: none;
-      color: rgba(235, 235, 235, 0.5);
+      color: $gray-dull;
       display: flex;
       gap: 0.3rem;
       cursor: pointer;
       &:hover {
-        color: rgba(60, 170, 125, 0.85);
+        color: $green-faded;
       }
-    }
-  }
-  .submit {
-    padding: 10px;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    &:hover {
-      color: rgba(235, 235, 235, 0.8);
-      border: 2px solid rgba(60, 170, 125, 0.5);
-    }
-    &:active {
-      color: rgba(235, 235, 235, 1);
-      border: 2px solid rgba(60, 170, 125, 1);
     }
   }
 }

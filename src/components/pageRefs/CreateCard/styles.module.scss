@@ -1,3 +1,5 @@
+@use 'styles/variables' as *;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -25,9 +27,9 @@
     cursor: pointer;
     transition: color 0.2s;
     font-weight: 500;
-    color: rgba(60, 170, 125, 0.75);
+    color: $green-faded;
     &:hover {
-      color: rgba(60, 170, 125, 1);
+      color: $green-light;
     }
   }
 }
