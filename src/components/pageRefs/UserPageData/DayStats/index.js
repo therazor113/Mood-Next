@@ -1,7 +1,8 @@
-import { getDate } from 'helpers/TimeStamps'
-
 const DayStats = async (handleFetch, user, setStats, setMoods) => {
-  const data = await handleFetch(`/UserDataApi/GetEntries/${user.userid}/${getDate().slice(0, 10)}`, 'GET')
+  const data = await handleFetch(
+    `/UserDataApi/GetEntries/${user.userid}/${new Date().toLocaleDateString('en-CA')}`,
+    'GET'
+  )
   setStats(prev => ({ ...prev, day: data }))
   setMoods(prev => {
     const dayArr = []

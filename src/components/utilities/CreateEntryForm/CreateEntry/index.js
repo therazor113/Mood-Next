@@ -1,14 +1,13 @@
-import { getDate, getHour, getWeekDay, getWeekYear } from 'helpers/TimeStamps'
-
-const CreateEntry = async (handleFetch, inputEntry, inputMood, userid) => {
+const CreateEntry = async (handleFetch, inputEntry, currentMood, userid) => {
+  const date = new Date()
   const timeStamp = {
-    date: getDate().slice(0, 10),
-    hour: getHour(),
-    weekDay: getWeekDay(),
-    weekYear: getWeekYear()
+    date: date.toLocaleDateString('en-CA'),
+    hour: date.getHours(),
+    weekDay: date.getDay() === 0 ? 6 : date.getDay() - 1,
+    weekYear: date.getWeek()
   }
   const path = `/UserDataApi/CreateEntry/${userid}`
-  const body = { entry: inputEntry, mood: inputMood, timeStamp }
+  const body = { entry: inputEntry, mood: currentMood, timeStamp }
   return await handleFetch(path, 'POST', body)
 }
 
