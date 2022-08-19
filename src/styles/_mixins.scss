@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 @mixin formContainer {
   display: flex;
   flex-wrap: wrap;
@@ -12,16 +14,28 @@
     padding-left: 45px;
     border-radius: 8px;
     justify-self: center;
-    background-color: #222222;
+    background-color: $background-light;
     border: 2px solid transparent;
-    color: rgba(235, 235, 235, 0.64);
+    color: $gray-dull;
     transition: border 0.2s, color 0.2s;
     outline: none;
-    &:not([type="submit"]):hover {
-      border: 2px solid rgba(60, 170, 125, 0.5);
+    &:hover {
+      color: $gray-faded;
+      border: 2px solid $green-dull;
     }
     &:not([type="submit"]):focus {
-      border: 2px solid rgba(60, 170, 125, 1);
+      color: $gray-light;
+      border: 2px solid $green-light;
+    }
+    &[type="submit"] {
+      padding: 10px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      &:active {
+        color: $gray-light;
+        border: 2px solid $green-light;
+      }
     }
   }
 }
@@ -41,10 +55,10 @@
     transform: translateY(-0.035em);
     border: 2px solid rgba(235, 235, 235, 0.1);
     &:hover {
-      border: 2px solid rgba(60, 170, 125, 0.25);
+      border: 2px solid $green-dull;
     }
     &:checked {
-      border: 2px solid rgba(60, 170, 125, 0.85);
+      border: 2px solid $green-light;
     }
     &::before {
       content: "";
@@ -54,7 +68,7 @@
       transform: scale(0);
       transform-origin: center;
       transition: 115ms transform ease-in-out;
-      background-color: rgba(60, 170, 125, 0.85);
+      background-color: $green-light;
     }
     &:checked::before {
       transform: scale(0.8);
@@ -68,10 +82,10 @@
   font-size: 20px;
   transform: translate(-2em, 1em);
   transition: color 0.2s;
-  color: rgba(60, 170, 125, 0.6);
+  color: $green-dull;
   cursor: pointer;
   &:hover {
-    color: rgba(60, 170, 125, 0.8);
+    color: $green-faded;
   }
 }
 
@@ -80,7 +94,7 @@
   width: 30px;
   font-size: 20px;
   transform: translate(0.2em, 1em);
-  color: rgba(60, 170, 125, 0.85);
+  color: $green-faded;
 }
 
 @mixin inputCursor {
@@ -88,6 +102,7 @@
   display: inline-block;
   width: 1px;
   height: 30px;
+  /* custom color fix for width size */
   background-color: rgb(80, 215, 160);
   transform: translate(2.5em, 1em);
 }
