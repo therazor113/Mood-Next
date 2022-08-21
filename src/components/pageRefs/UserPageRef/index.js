@@ -17,9 +17,10 @@ const UserPageRef = ({ user }) => {
   const updateRef = useRef(() => {})
 
   updateRef.current = () => {
-    DayStats(handleFetch, user, setStats, setMoods) //
-    WeekStats(handleFetch, user, setStats, setMoods) // Maybe combine later?
-    MonthStats(handleFetch, user, setStats, setMoods) //
+    // More modular this way
+    DayStats(handleFetch, user, setStats, setMoods)
+    WeekStats(handleFetch, user, setStats, setMoods)
+    MonthStats(handleFetch, user, setStats, setMoods)
   }
 
   useEffect(() => {
@@ -28,25 +29,30 @@ const UserPageRef = ({ user }) => {
 
   return (
     <div className={classes.container}>
-      <h2>User: {user.name}</h2>
-      <h2>ID: {user.userid}</h2>
+      <h2 className={classes.welcome}>Welcome! <span>{user.name}</span></h2>
 
-      <CreateEntryForm updateStats={updateRef.current} userid={user.userid} />
+      <CreateEntryForm
+        updateStats={updateRef.current}
+        userid={user.userid}
+      />
 
       <LineDay
         title={'Todays Moods'}
+        classes={classes}
         stats={stats.day}
         moods={moods.day}
         updateStats={updateRef.current}
       />
       <LineWeek
         title={'This Weeks Moods'}
+        classes={classes}
         stats={stats.week}
         moods={moods.week}
         updateStats={updateRef.current}
       />
       <BarMonth
         title={'Monthly Stats'}
+        classes={classes}
         stats={stats.month}
         moods={moods.month}
         updateStats={updateRef.current}
