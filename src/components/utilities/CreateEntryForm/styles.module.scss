@@ -1,28 +1,60 @@
+@use 'styles/variables' as *;
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    button {
-        padding: 0;
-        width: 50px;
-        background-color: gray;
-        border: 2px outset rgb(200, 200, 200);
-        &:hover {
-            background-color: rgba(200, 200, 200, 0.8);
-            border: 2px inset rgb(200, 200, 200);
-        }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  textarea {
+    outline: none;
+    padding: 5px;
+    min-width: 350px;
+    max-width: 500px;
+    min-height: 250px;
+    max-height: 350px;
+    font-size: 15px;
+    color: $gray-faded;
+    border-radius: 10px;
+    border: 2px solid $gray-dark;
+    background-color: $background-light;
+    transition: border 0.2s;
+    &:hover {
+      border: 2px solid $green-dull;
     }
-    input {
-        background-color: lightgray;
+    &:focus {
+      border: 2px solid $green-dull;
     }
+  }
+  input {
+    width: 13rem;
+    height: 60px;
+    font-size: 20px;
+    user-select: none;
+    color: $gray-dull;
+    border-radius: 8px;
+    background-color: $background-light;
+    border: 2px solid $gray-dark;
+    transition: border 0.2s, color 0.2s;
+    cursor: pointer;
+    &:hover {
+      color: $gray-faded;
+      border: 2px solid $green-dull;
+    }
+    &:active {
+      color: $gray-light;
+      border: 2px solid $green-light;
+    }
+  }
 }
-.message {
-    transform: translate(0, 300%);
-    position: absolute;
+
+.selectMood {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
-.entryInput {
-    width: 250px;
-}
-.moodInput {
-    width: 100px;
+.journalEntry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
