@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/router'
 import CreateEntryForm from 'components/utilities/CreateEntryForm'
 import BarMonth from '../MoodCharts/BarMonth'
 import LineDay from '../MoodCharts/LineDay'
@@ -9,12 +8,13 @@ import MonthStats from '../UserPageData/MonthStats'
 import WeekStats from '../UserPageData/WeekStats'
 import useAPI from 'hooks/useAPI'
 
+import classes from './styles.module.scss'
+
 const UserPageRef = ({ user }) => {
   const [moods, setMoods] = useState({ day: [], week: [], month: [] })
   const [stats, setStats] = useState({ day: [], week: [], month: [] })
   const [handleFetch] = useAPI()
   const updateRef = useRef(() => {})
-  const router = useRouter()
 
   updateRef.current = () => {
     DayStats(handleFetch, user, setStats, setMoods) //
@@ -27,10 +27,9 @@ const UserPageRef = ({ user }) => {
   }, [])
 
   return (
-    <div>
-      <button onClick={() => router.push('/')}>Back</button>
-      <h2>{user.name}</h2>
-      <h2>{user.userid}</h2>
+    <div className={classes.container}>
+      <h2>User: {user.name}</h2>
+      <h2>ID: {user.userid}</h2>
 
       <CreateEntryForm updateStats={updateRef.current} userid={user.userid} />
 
