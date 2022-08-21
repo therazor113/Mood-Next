@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 
 import classes from './styles.module.scss'
 
-const EntriesList = ({ type, statsArr, updateStats, cardData }) => {
+const EntriesList = ({ type, statsArr, updateStats, cardIndex }) => {
   const scrollRef = useRef()
 
   // Scroll to top when entries are opened
@@ -26,8 +26,9 @@ const EntriesList = ({ type, statsArr, updateStats, cardData }) => {
       }
 
       {type === 'week' && statsArr &&
-        statsArr.map((userStats) => (
+        statsArr.map(userStats => (
           <ul key={userStats.id}>
+
             <li>Hour: {
              userStats.time < 12
                ? `${userStats.time} AM`
@@ -50,15 +51,15 @@ const EntriesList = ({ type, statsArr, updateStats, cardData }) => {
       }
 
       {type === 'month' && statsArr &&
-        statsArr.map(userStat => {
-          if (userStat.mood === cardData) {
+        statsArr.map(userStats => {
+          if (userStats.mood === cardIndex) {
             return (
-          <ul key={userStat.id}>
-            <li>Mood: {userStat.mood}</li>
-            <li>Journal Entry: {userStat.journal}</li>
+          <ul key={userStats.id}>
+            <li>Mood: {userStats.mood}</li>
+            <li>Journal Entry: {userStats.journal}</li>
             <UpdateEntryForm
               updateStats={updateStats}
-              entryId={userStat.id}
+              entryId={userStats.id}
             />
           </ul>
             )
