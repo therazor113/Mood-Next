@@ -34,7 +34,7 @@ const UserCharts = ({ user }) => {
     setFavicon('/chart.ico')
   }, [setFavicon])
   return (
-    <Layout title={'charts'}>
+    <Layout title={'Charts'}>
       <UserPageRef user={user} />
     </Layout>
   )
