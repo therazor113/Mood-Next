@@ -1,8 +1,32 @@
 @use 'styles/variables' as *;
 
 .container {
-    background-color: $background-dull;
-    border-radius: 2rem;
-    min-width: 800px;
-    max-width: 50vw;
+  position: relative;
+  background-color: $background-dull;
+  border-radius: 2rem;
+  min-width: 800px;
+  max-width: 50vw;
+  height: 31vh;
+}
+
+.entryContainer {
+  border-radius: 2rem;
+  min-width: 800px;
+  max-width: 50vw;
+  height: 31vh;
+  padding: 2rem;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+.blur {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  background-color: $background-dull;
+  border-radius: 2rem;
+  width: 100%;
+  height: 100%;
 }
