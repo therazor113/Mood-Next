@@ -13,8 +13,8 @@ const CreateJournalEntry = async (req, res) => {
       'SELECT * FROM moods WHERE userid = $1 AND date = $2',
       [userid, timeStamp.date]
     )
-    if (entryListFull.rows.length >= 8) {
-      res.json('You\'ve finished your entries for today!')
+    if (entryListFull.rows.length >= 24) {
+      res.json(false)
       return
     }
     const entryExists = await pool.query(
@@ -22,7 +22,7 @@ const CreateJournalEntry = async (req, res) => {
       [userid, timeStamp.hour, timeStamp.date]
     )
     if (entryExists.rows[0].exists) {
-      res.json('Please wait 1 hour for next entry')
+      res.json(false)
       return
     }
     await pool.query(
