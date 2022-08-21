@@ -3,9 +3,7 @@ import { useRef, useState } from 'react'
 import { colors, solidColors, icons, createGradient } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
-import classes from './styles.module.scss'
-
-const LineWeek = ({ title, stats, moods, updateStats }) => {
+const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
 
@@ -89,7 +87,7 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
           title: (item) => {
             return icons[Math.round(item[0].raw - 1)]
           },
-          beforeBody: (item) => 'Click to show entries',
+          beforeBody: () => 'Click to show entries',
           label: () => {
             return undefined
           }
@@ -112,6 +110,8 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
     }]
   }
 
+  console.log(moods)
+
   const handleClick = (e) => {
     const item = getElementAtEvent(chartRef.current, e)
     if (!item.length) return
@@ -123,7 +123,7 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
   }
 
   return (
-    <div className={classes.container}>
+    <div className={classes.chartContainer}>
       {cardIndex !== null &&
       <div className={classes.entryContainer}>
         <div
@@ -132,7 +132,7 @@ const LineWeek = ({ title, stats, moods, updateStats }) => {
         />
         <EntriesList
           type={'week'}
-          statsArr={stats[cardIndex]?.entries}
+          statsArr={stats[cardIndex]}
           updateStats={updateStats}
         />
       </div>

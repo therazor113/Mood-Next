@@ -3,10 +3,8 @@ import { useRef, useState } from 'react'
 import { colors, icons } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
-import classes from './styles.module.scss'
-
-const BarMonth = ({ title, stats, moods, updateStats }) => {
-  const [cardData, setCardData] = useState(null)
+const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
+  const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
 
   const options = {
@@ -106,26 +104,26 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
   const handleClick = (e) => {
     const item = getElementAtEvent(chartRef.current, e)
     if (!item.length) return
-    if (cardData === item[0].index + 1) {
-      setCardData(null)
+    if (cardIndex === item[0].index + 1) {
+      setCardIndex(null)
     } else {
-      setCardData(moods[item[0]?.index]?.mood)
+      setCardIndex(moods[item[0]?.index]?.mood)
     }
   }
 
   return (
-    <div className={classes.container}>
-      {cardData !== null &&
+    <div className={classes.chartContainer}>
+      {cardIndex !== null &&
         <div className={classes.entryContainer}>
           <div
             className={classes.blur}
-            onClick={() => setCardData(null)}
+            onClick={() => setCardIndex(null)}
           />
         <EntriesList
           type={'month'}
           statsArr={stats}
           updateStats={updateStats}
-          cardData={cardData}
+          cardIndex={cardIndex}
         />
         </div>
       }

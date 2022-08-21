@@ -3,9 +3,7 @@ import { useRef, useState } from 'react'
 import { colors, solidColors, icons, createGradient } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
-import classes from './styles.module.scss'
-
-const LineDay = ({ title, stats, moods, updateStats }) => {
+const LineDay = ({ title, classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
 
@@ -135,7 +133,7 @@ const LineDay = ({ title, stats, moods, updateStats }) => {
   }
 
   return (
-    <div className={classes.container}>
+    <div className={classes.chartContainer}>
       {cardIndex !== null &&
         <div className={classes.entryContainer}>
           <div
