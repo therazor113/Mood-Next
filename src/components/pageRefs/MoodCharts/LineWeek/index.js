@@ -110,8 +110,6 @@ const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
     }]
   }
 
-  console.log(moods)
-
   const handleClick = (e) => {
     const item = getElementAtEvent(chartRef.current, e)
     if (!item.length) return
