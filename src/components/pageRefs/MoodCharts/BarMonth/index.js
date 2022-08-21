@@ -1,35 +1,14 @@
 import { Chart, getElementAtEvent } from 'react-chartjs-2'
 import { useRef, useState } from 'react'
+import { colors, icons } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
 import classes from './styles.module.scss'
 
 const BarMonth = ({ title, stats, moods, updateStats }) => {
-  const [cardIndex, setCardIndex] = useState(null)
-  const [cardData, setCardData] = useState([])
+  const [cardData, setCardData] = useState(null)
   const chartRef = useRef()
-  const colors = [
-    'rgba(255, 0, 0, 0.7)',
-    'rgba(255, 68, 0, 0.7)',
-    'rgba(255, 119, 0, 0.7)',
-    'rgba(255, 204, 0, 0.7)',
-    'rgba(255, 255, 0, 0.7)',
-    'rgba(200, 225, 0, 0.7)',
-    'rgba(120, 200, 0, 0.7)',
-    'rgba(55, 225, 0, 0.7)',
-    'rgba(0, 200, 0, 0.9)'
-  ]
-  const icons = [
-    '\uf567',
-    '\uf5b3',
-    '\uf119',
-    '\uf57a',
-    '\uf11a',
-    '\uf118',
-    '\uf5b8',
-    '\uf582',
-    '\uf59a'
-  ]
+
   const options = {
     responsive: true,
     scales: {
@@ -88,22 +67,26 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
         }
       },
       tooltip: {
+        titleColor: (item) => {
+          return item.tooltip.labelColors[0].backgroundColor
+        },
+        titleFont: {
+          size: 20
+        },
         bodyFont: {
           size: 15,
           weight: 600
         },
+        bodyColor: '',
         callbacks: {
           title: (item) => {
-            return moods[item[0].dataIndex]?.mood + '\'s'
+            return icons[item[0].dataIndex]
           },
-          labelColor: (item) => {
-            return {
-              borderColor: item.dataset.colors[item.dataIndex],
-              backgroundColor: item.dataset.colors[item.dataIndex]
-            }
+          beforeBody: () => {
+            return 'Click to show entries'
           },
-          labelTextColor: (item) => {
-            return item.dataset.colors[item.dataIndex]
+          label: () => {
+            return undefined
           }
         }
       }
@@ -115,7 +98,6 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
     datasets: [{
       colors,
       type: 'bar',
-      label: 'Click to show entries',
       entry: stats,
       data: moods.map(o => o?.count)
     }]
@@ -124,26 +106,31 @@ const BarMonth = ({ title, stats, moods, updateStats }) => {
   const handleClick = (e) => {
     const item = getElementAtEvent(chartRef.current, e)
     if (!item.length) return
-    if (cardIndex === item[0].index) {
-      setCardIndex(null)
+    if (cardData === item[0].index + 1) {
+      setCardData(null)
     } else {
-      setCardIndex(item[0].index)
       setCardData(moods[item[0]?.index]?.mood)
     }
   }
 
   return (
-    <>
-      <div className={classes.container}>
-        <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
-      </div>
-       <EntriesList
+    <div className={classes.container}>
+      {cardData !== null &&
+        <div className={classes.entryContainer}>
+          <div
+            className={classes.blur}
+            onClick={() => setCardData(null)}
+          />
+        <EntriesList
+          type={'month'}
           statsArr={stats}
           updateStats={updateStats}
-          cardIndex={cardIndex}
           cardData={cardData}
         />
-    </>
+        </div>
+      }
+      <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
+    </div>
   )
 }
 

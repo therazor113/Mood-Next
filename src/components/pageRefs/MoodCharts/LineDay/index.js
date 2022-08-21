@@ -1,49 +1,19 @@
 import { Chart, getElementAtEvent } from 'react-chartjs-2'
 import { useRef, useState } from 'react'
-import SingleEntry from 'components/pageRefs/SingleEntry'
+import { colors, solidColors, icons, createGradient } from '../Variables'
+import EntriesList from 'components/pageRefs/EntriesList'
 
 import classes from './styles.module.scss'
 
 const LineDay = ({ title, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
-  const colors = [
-    'rgba(255, 0, 0, 0.7)',
-    'rgba(255, 68, 0, 0.7)',
-    'rgba(255, 119, 0, 0.7)',
-    'rgba(255, 204, 0, 0.7)',
-    'rgba(255, 255, 0, 0.7)',
-    'rgba(200, 225, 0, 0.7)',
-    'rgba(120, 200, 0, 0.7)',
-    'rgba(55, 225, 0, 0.7)',
-    'rgba(0, 200, 0, 0.9)'
-  ]
-  const solidColors = [
-    'rgba(255, 0, 0)',
-    'rgba(255, 68, 0)',
-    'rgba(255, 119, 0)',
-    'rgba(255, 204, 0)',
-    'rgba(255, 255, 0)',
-    'rgba(200, 225, 0)',
-    'rgba(120, 200, 0)',
-    'rgba(55, 225, 0)',
-    'rgba(0, 200, 0)'
-  ]
-  const icons = [
-    '\uf567',
-    '\uf5b3',
-    '\uf119',
-    '\uf57a',
-    '\uf11a',
-    '\uf118',
-    '\uf5b8',
-    '\uf582',
-    '\uf59a'
-  ]
+
   const options = {
     responsive: true,
     scales: {
       y: {
+        suggestedMin: 1,
         beginAtZero: false,
         suggestedMax: 9,
         stepSize: 1,
@@ -114,38 +84,30 @@ const LineDay = ({ title, stats, moods, updateStats }) => {
         }
       },
       tooltip: {
+        titleColor: (item) => {
+          return item.tooltip.labelColors[0].backgroundColor
+        },
+        titleFont: {
+          size: 20
+        },
         bodyFont: {
           size: 15,
           weight: 600
         },
+        bodyColor: '',
         callbacks: {
-          label: (item) => {
-            return `Entry: ${item.dataset.entry[item.dataIndex].journal}`
+          title: (item) => {
+            return icons[item[0].raw - 1]
           },
-          labelColor: (item) => {
-            return {
-              borderColor: item.dataset.colors[item.raw - 1],
-              backgroundColor: item.dataset.colors[item.raw - 1]
-            }
+          beforeBody: (item) => {
+            return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal}`
           },
-          labelTextColor: (item) => {
-            return item.dataset.colors[item.raw - 1]
+          label: () => {
+            return undefined
           }
         }
       }
     }
-  }
-
-  const createGradient = (ctx, area) => {
-    const colorStart = 'rgb(255, 0, 0)'
-    const colorMid = 'rgba(200, 225, 0)'
-    const colorEnd = 'rgb(0, 200, 0)'
-    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top)
-    gradient.addColorStop(0, colorStart)
-    gradient.addColorStop(0.5, colorMid)
-    gradient.addColorStop(1, colorEnd)
-
-    return gradient
   }
 
   const data = {
@@ -171,16 +133,24 @@ const LineDay = ({ title, stats, moods, updateStats }) => {
       setCardIndex(item[0].index)
     }
   }
+
   return (
-    <>
-      <div className={classes.container}>
-        <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
-      </div>
-      <SingleEntry
-        statEntry={stats[cardIndex]}
-        updateStats={updateStats}
-      />
-    </>
+    <div className={classes.container}>
+      {cardIndex !== null &&
+        <div className={classes.entryContainer}>
+          <div
+            className={classes.blur}
+            onClick={() => setCardIndex(null)}
+          />
+          <EntriesList
+            type={'day'}
+            statsArr={stats[cardIndex]}
+            updateStats={updateStats}
+          />
+        </div>
+      }
+      <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
+    </div>
   )
 }
 
