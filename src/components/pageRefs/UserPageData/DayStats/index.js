@@ -1,6 +1,6 @@
 const DayStats = async (handleFetch, user, setStats, setMoods) => {
   const data = await handleFetch(
-    `/UserDataApi/GetEntries/${user.userid}/${new Date().toLocaleDateString('en-CA')}`,
+    `/UserDataApi/GetEntries/${user.userid}/GetDay/${new Date().toLocaleDateString('en-CA')}`,
     'GET'
   )
   setStats(prev => ({ ...prev, day: data }))
