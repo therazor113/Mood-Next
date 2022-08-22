@@ -11,15 +11,15 @@ export const colors = [
 ]
 
 export const solidColors = [
-  'rgba(255, 0, 0)',
-  'rgba(255, 68, 0)',
-  'rgba(255, 119, 0)',
-  'rgba(255, 204, 0)',
-  'rgba(255, 255, 0)',
-  'rgba(200, 225, 0)',
-  'rgba(120, 200, 0)',
-  'rgba(55, 225, 0)',
-  'rgba(0, 200, 0)'
+  'rgb(255, 0, 0)',
+  'rgb(255, 68, 0)',
+  'rgb(255, 119, 0)',
+  'rgb(255, 204, 0)',
+  'rgb(255, 255, 0)',
+  'rgb(200, 225, 0)',
+  'rgb(120, 200, 0)',
+  'rgb(55, 225, 0)',
+  'rgb(0, 200, 0)'
 ]
 
 export const icons = [
@@ -36,7 +36,7 @@ export const icons = [
 
 export const createGradient = (ctx, area) => {
   const colorStart = 'rgb(255, 0, 0)'
-  const colorMid = 'rgba(200, 225, 0)'
+  const colorMid = 'rgb(200, 225, 0)'
   const colorEnd = 'rgb(0, 200, 0)'
   const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top)
   gradient.addColorStop(0, colorStart)
