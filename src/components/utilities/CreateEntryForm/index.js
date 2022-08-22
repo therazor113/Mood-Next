@@ -6,11 +6,13 @@ import useAPI from 'hooks/useAPI'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faAngleLeft, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import classes from './styles.module.scss'
+import FormTextField from '../FormTextField'
 
 const CreateEntryForm = ({ updateStats, userid }) => {
   const [currentMood, setCurrentMood] = useState(null)
-  const [inputEntry, setInputEntry] = useState('')
   const [startEntry, setStartEntry] = useState(false)
+  const [textLength, setTextLength] = useState(254)
+  const [inputEntry, setInputEntry] = useState('')
   const [loading, setLoading] = useState(false)
   const [handleFetch] = useAPI()
 
@@ -20,14 +22,16 @@ const CreateEntryForm = ({ updateStats, userid }) => {
     const data = await CreateEntry(handleFetch, inputEntry, currentMood, userid)
     if (data) {
       setInputEntry('')
+      setTextLength(254)
       updateStats()
     }
     setTimeout(() => setLoading(false), 1000)
   }
 
-  const handleInputEntry = (e) => {
-    if (e.target.value.length > 725) return
+  const handleChange = (e) => {
+    if (/\n/g.test(e.target.value) || e.target.value.length > 254) return
     setInputEntry(e.target.value)
+    setTextLength(254 - e.target.value.length)
   }
 
   return (
@@ -45,11 +49,12 @@ const CreateEntryForm = ({ updateStats, userid }) => {
 
       <div
         className={classes.selectMood}
-        style={startEntry
-          ? !currentMood
-              ? { transform: 'translateX(0%)', opacity: 1 }
-              : { transform: 'translateX(-140%)', opacity: 0 }
-          : { transform: 'translateX(140%)', opacity: 0 }}
+        style={
+          startEntry
+            ? !currentMood
+                ? { transform: 'translateX(0%)', opacity: 1 }
+                : { transform: 'translateX(-140%)', opacity: 0 }
+            : { transform: 'translateX(140%)', opacity: 0 }}
       >
         <h2>How are you feeling?</h2>
         <MoodIcons
@@ -66,12 +71,11 @@ const CreateEntryForm = ({ updateStats, userid }) => {
         className={classes.journalEntry}
         style={currentMood && { transform: 'translateX(0)', opacity: 1 }}
       >
-        <textarea
-          name='message'
-          aria-label='Journal'
-          placeholder='Whats on your mind?'
-          value={inputEntry}
-          onChange={handleInputEntry}
+        <FormTextField
+          handleChange={handleChange}
+          inputEntry={inputEntry}
+          textLength={textLength}
+          classes={classes}
         />
         <div>
           <FontAwesomeIcon
