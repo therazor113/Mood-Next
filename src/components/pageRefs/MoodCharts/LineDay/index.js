@@ -3,6 +3,9 @@ import { useRef, useState } from 'react'
 import { colors, solidColors, icons, createGradient } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
 const LineDay = ({ title, classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
@@ -30,7 +33,7 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
       },
       x: {
         beginAtZero: true,
-        suggestedMax: 9,
+        suggestedMax: 8,
         stepSize: 1,
         ticks: {
           font: {
@@ -39,11 +42,15 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
           },
           callback: function (item) {
             if (stats[item]) {
-              if (stats[item]?.time <= 12) {
-                return `${stats[item]?.time} AM`
-              } else if (stats[item]?.time > 12) {
-                return `${stats[item]?.time - 12} PM`
-              }
+              const time =
+              stats[item]?.time === '0'
+                ? '12 AM'
+                : stats[item]?.time < 12
+                  ? `${stats[item]?.time} AM`
+                  : stats[item]?.time === '12'
+                    ? `${stats[item]?.time} PM`
+                    : `${stats[item]?.time - 12} PM`
+              return time
             }
           }
         }
@@ -98,7 +105,11 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
             return icons[item[0].raw - 1]
           },
           beforeBody: (item) => {
-            return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal}`
+            if (item[0].dataset.entry[item[0].dataIndex].journal.length > 15) {
+              return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal.slice(0, 15)} ...`
+            } else {
+              return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal}`
+            }
           },
           label: () => {
             return undefined
@@ -109,7 +120,7 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
   }
 
   const data = {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8],
+    labels: moods.length < 8 ? [1, 2, 3, 4, 5, 6, 7, 8] : moods,
     datasets: [{
       colors,
       solidColors,
@@ -144,6 +155,11 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
             type={'day'}
             statsArr={stats[cardIndex]}
             updateStats={updateStats}
+          />
+          <FontAwesomeIcon
+            icon={faXmark}
+            className={classes.exitButton}
+            onClick={() => setCardIndex(null)}
           />
         </div>
       }
