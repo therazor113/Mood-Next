@@ -3,6 +3,9 @@ import { useRef, useState } from 'react'
 import { colors, solidColors, icons, createGradient } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
 const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
@@ -123,17 +126,22 @@ const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
   return (
     <div className={classes.chartContainer}>
       {cardIndex !== null &&
-      <div className={classes.entryContainer}>
-        <div
-          className={classes.blur}
-          onClick={() => setCardIndex(null)}
-        />
-        <EntriesList
-          type={'week'}
-          statsArr={stats[cardIndex]}
-          updateStats={updateStats}
-        />
-      </div>
+        <div className={classes.entryContainer}>
+          <div
+            className={classes.blur}
+            onClick={() => setCardIndex(null)}
+          />
+          <EntriesList
+            type={'week'}
+            statsArr={stats[cardIndex]}
+            updateStats={updateStats}
+          />
+          <FontAwesomeIcon
+            icon={faXmark}
+            className={classes.exitButton}
+            onClick={() => setCardIndex(null)}
+          />
+        </div>
       }
       <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
     </div>
