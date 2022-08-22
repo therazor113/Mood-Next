@@ -4,7 +4,7 @@ const getMonthMoods = async (req, res) => {
   try {
     const { userid, month } = req.query
     const moods = await pool.query(
-      'SELECT id, mood, journal FROM moods WHERE userid = $1 AND date LIKE $2',
+      'SELECT id, mood, journal, date FROM moods WHERE userid = $1 AND date LIKE $2 ORDER BY id',
       [userid, month + '%']
     )
     const countMoods = await pool.query(
