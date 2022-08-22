@@ -3,6 +3,9 @@ import { useRef, useState } from 'react'
 import { colors, icons } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
 const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const chartRef = useRef()
@@ -124,6 +127,11 @@ const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
           statsArr={stats}
           updateStats={updateStats}
           cardIndex={cardIndex}
+        />
+        <FontAwesomeIcon
+          icon={faXmark}
+          className={classes.exitButton}
+          onClick={() => setCardIndex(null)}
         />
         </div>
       }
