@@ -1,0 +1,16 @@
+@use 'styles/variables' as *;
+
+.container {
+  display: flex;
+  gap: 3px;
+  svg {
+    font-size: 25px;
+  }
+}
+.arrowIcon {
+  color: $gray-dim;
+  cursor: pointer;
+  &:hover {
+    color: $gray-light;
+  }
+}
