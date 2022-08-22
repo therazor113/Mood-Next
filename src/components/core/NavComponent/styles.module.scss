@@ -1,0 +1,51 @@
+@use 'styles/variables' as *;
+
+.container {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+  z-index: 100;
+  display: flex;
+  position: fixed;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $background-light;
+  div {
+    display: flex;
+    gap: 2rem;
+  }
+  h2 {
+    cursor: default;
+    &:hover {
+      .next {
+        text-decoration-color: $green-faded;
+      }
+    }
+  }
+}
+
+.next {
+  color: $green-faded;
+  transition: color 0.2s, text-decoration-color 0.2s;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+}
+
+.link {
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1px 10px 3px 10px;
+  transition: color 0.2s, background-color 0.3s;
+  &:hover {
+    color: $gray-faded;
+    background-color: $green-dark;
+    cursor: pointer;
+  }
+  &:active {
+    color: $gray-light;
+    background-color: $green-dull;
+  }
+}
