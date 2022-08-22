@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import FaviconContext from 'contexts/FaviconContext'
 import Layout from 'components/core/Layout'
-import LoginCard from 'components/pageRefs/LoginCard'
+import SignInCard from 'components/pageRefs/SignInCard'
 
 const Home = () => {
   const { setFavicon } = useContext(FaviconContext)
@@ -9,8 +9,8 @@ const Home = () => {
     setFavicon('/favicon.ico')
   }, [setFavicon])
   return (
-    <Layout title={'Login'}>
-      <LoginCard />
+    <Layout title={'Login'} log={'in'}>
+      <SignInCard />
     </Layout>
   )
 }
