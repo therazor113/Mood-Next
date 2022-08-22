@@ -6,6 +6,7 @@
   gap: 1rem;
 }
 .welcome {
+  margin-top: 1rem;
   font-size: 40px;
   span {
     color: $green-faded;
@@ -17,17 +18,28 @@
   border-radius: 2rem;
   min-width: 800px;
   max-width: 50vw;
-  height: 31vh;
+  height: fit-content;
 }
 .entryContainer {
   border-radius: 2rem;
   min-width: 800px;
   max-width: 50vw;
-  height: 31vh;
+  height: 25rem;
   padding: 2rem;
   position: absolute;
   display: flex;
   justify-content: center;
+  .exitButton {
+    position: absolute;
+    z-index: 10;
+    font-size: 30px;
+    color: $gray-dark;
+    transform: translate(1975%, -60%);
+    cursor: pointer;
+    &:hover {
+      color: $gray-dull;
+    }
+  }
 }
 .blur {
   position: absolute;
