@@ -17,7 +17,6 @@ const UserPageRef = ({ user }) => {
   const updateRef = useRef(() => {})
 
   updateRef.current = () => {
-    // More modular this way
     DayStats(handleFetch, user, setStats, setMoods)
     WeekStats(handleFetch, user, setStats, setMoods)
     MonthStats(handleFetch, user, setStats, setMoods)
