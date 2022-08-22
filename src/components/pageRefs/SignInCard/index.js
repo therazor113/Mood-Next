@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import classes from './styles.module.scss'
 
-const LoginCard = () => {
+const SignInCard = () => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -21,4 +21,4 @@ const LoginCard = () => {
   )
 }
 
-export default LoginCard
+export default SignInCard
