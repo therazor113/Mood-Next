@@ -4,10 +4,11 @@ import { colors, icons } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons'
 
-const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
+const BarMonth = ({ classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
+  const [showChart, setShowChart] = useState(true)
   const chartRef = useRef()
 
   const options = {
@@ -57,16 +58,8 @@ const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
       }
     },
     plugins: {
-      legend: {
-        display: false
-      },
-      title: {
-        display: true,
-        text: title,
-        font: {
-          size: '18'
-        }
-      },
+      legend: { display: false },
+      title: { display: false },
       tooltip: {
         titleColor: (item) => {
           return item.tooltip.labelColors[0].backgroundColor
@@ -115,7 +108,19 @@ const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
   }
 
   return (
-    <div className={classes.chartContainer}>
+    <div
+      className={classes.chartContainer}
+      style={!showChart ? { height: '3rem' } : {}}
+    >
+      <div className={classes.chartHeader}>
+        <FontAwesomeIcon
+          icon={faAngleLeft}
+          className={classes.dropDown}
+          onClick={() => setShowChart(!showChart)}
+          rotation={showChart ? 270 : 0}
+        />
+        <h2>Monthly Stats</h2>
+      </div>
       {cardIndex !== null &&
         <div className={classes.entryContainer}>
           <div
@@ -135,7 +140,17 @@ const BarMonth = ({ title, classes, stats, moods, updateStats }) => {
         />
         </div>
       }
-      <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
+      <div
+        className={classes.chartDiv}
+        style={!showChart ? { transform: 'scaleY(0)', opacity: 0 } : {}}
+      >
+      <Chart
+        options={options}
+        data={data}
+        onClick={handleClick}
+        ref={chartRef}
+      />
+      </div>
     </div>
   )
 }

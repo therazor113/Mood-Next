@@ -4,10 +4,11 @@ import { colors, solidColors, icons, createGradient } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const LineDay = ({ title, classes, stats, moods, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
+  const [showChart, setShowChart] = useState(true)
   const chartRef = useRef()
 
   const options = {
@@ -26,7 +27,7 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
           color: (item) => {
             return colors[item.index]
           },
-          callback: (item, index) => {
+          callback: (_, index) => {
             return icons[index]
           }
         }
@@ -78,16 +79,8 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
       }
     },
     plugins: {
-      legend: {
-        display: false
-      },
-      title: {
-        display: true,
-        text: title,
-        font: {
-          size: '18'
-        }
-      },
+      legend: { display: false },
+      title: { display: false },
       tooltip: {
         titleColor: (item) => {
           return item.tooltip.labelColors[0].backgroundColor
@@ -106,7 +99,7 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
           },
           beforeBody: (item) => {
             if (item[0].dataset.entry[item[0].dataIndex].journal.length > 15) {
-              return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal.slice(0, 15)} ...`
+              return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal.slice(0, 15)}...`
             } else {
               return `Entry: ${item[0].dataset.entry[item[0].dataIndex].journal}`
             }
@@ -144,7 +137,19 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
   }
 
   return (
-    <div className={classes.chartContainer}>
+    <div
+      className={classes.chartContainer}
+      style={!showChart ? { height: '3rem' } : {}}
+    >
+      <div className={classes.chartHeader}>
+        <FontAwesomeIcon
+          icon={faAngleLeft}
+          className={classes.dropDown}
+          onClick={() => setShowChart(!showChart)}
+          rotation={showChart ? 270 : 0}
+        />
+        <h2>Todays Moods</h2>
+      </div>
       {cardIndex !== null &&
         <div className={classes.entryContainer}>
           <div
@@ -163,7 +168,17 @@ const LineDay = ({ title, classes, stats, moods, updateStats }) => {
           />
         </div>
       }
-      <Chart options={options} data={data} onClick={handleClick} ref={chartRef} />
+      <div
+        className={classes.chartDiv}
+        style={!showChart ? { transform: 'scaleY(0)', opacity: 0 } : {}}
+      >
+      <Chart
+        options={options}
+        data={data}
+        onClick={handleClick}
+        ref={chartRef}
+      />
+      </div>
     </div>
   )
 }
