@@ -32,7 +32,11 @@ const getUserName = async (req, res) => {
       return
     }
     const token = createToken(user.rows[0].userid, user.rows[0].name)
-    setCookie('jwt', token, { req, res, httpOnly: true, expires: keepToken ? maxAge : false })
+    if (keepToken) {
+      setCookie('jwt', token, { req, res, httpOnly: true, maxAge })
+    } else if (!keepToken) {
+      setCookie('jwt', token, { req, res, httpOnly: true })
+    }
     res.json(user.rows[0])
   } catch (err) {
     console.error(err.message)
