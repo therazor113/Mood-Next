@@ -1,7 +1,7 @@
 @use 'styles/variables' as *;
 
 .container {
-  width: 100%;
+  width: 350px;
   height: 100%;
   textarea {
     padding: 5px;
@@ -9,6 +9,7 @@
     font-size: 15px;
     min-width: 350px;
     min-height: 100px;
+    align-self: flex-start;
     resize: none;
     color: $gray-faded;
     border-radius: 10px;
@@ -39,7 +40,7 @@
       border: 2px solid $green-dull;
     }
     &:active {
-      color: $gray-light;
+      color: $gray-faded;
       border: 2px solid $green-light;
     }
   }
