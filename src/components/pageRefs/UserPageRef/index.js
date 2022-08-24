@@ -10,7 +10,7 @@ import useAPI from 'hooks/useAPI'
 
 import classes from './styles.module.scss'
 
-const UserPageRef = ({ user }) => {
+const UserPageRef = ({ user, entryExists }) => {
   const [moods, setMoods] = useState({ day: [], week: [], month: [] })
   const [stats, setStats] = useState({ day: [], week: [], month: [] })
   const [handleFetch] = useAPI()
@@ -33,24 +33,22 @@ const UserPageRef = ({ user }) => {
       <CreateEntryForm
         updateStats={updateRef.current}
         userid={user.userid}
+        entryExists={entryExists}
       />
 
       <LineDay
-        title={'Todays Moods'}
         classes={classes}
         stats={stats.day}
         moods={moods.day}
         updateStats={updateRef.current}
       />
       <LineWeek
-        title={'This Weeks Moods'}
         classes={classes}
         stats={stats.week}
         moods={moods.week}
         updateStats={updateRef.current}
       />
       <BarMonth
-        title={'Monthly Stats'}
         classes={classes}
         stats={stats.month}
         moods={moods.month}

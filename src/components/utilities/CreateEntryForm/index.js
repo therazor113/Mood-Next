@@ -4,28 +4,29 @@ import CreateEntry from './CreateEntry'
 import useAPI from 'hooks/useAPI'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faAngleLeft, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faAngleLeft, faExclamation } from '@fortawesome/free-solid-svg-icons'
 import classes from './styles.module.scss'
 import FormTextField from '../FormTextField'
 
-const CreateEntryForm = ({ updateStats, userid }) => {
+const CreateEntryForm = ({ updateStats, userid, entryExists }) => {
+  const [showForm, setShowForm] = useState(!entryExists)
   const [currentMood, setCurrentMood] = useState(null)
   const [startEntry, setStartEntry] = useState(false)
   const [textLength, setTextLength] = useState(254)
   const [inputEntry, setInputEntry] = useState('')
-  const [loading, setLoading] = useState(false)
   const [handleFetch] = useAPI()
 
   const handleEnter = async () => {
     if (!inputEntry || !currentMood) return
-    setLoading(true)
     const data = await CreateEntry(handleFetch, inputEntry, currentMood, userid)
     if (data) {
       setInputEntry('')
       setTextLength(254)
       updateStats()
     }
-    setTimeout(() => setLoading(false), 1000)
+    setShowForm(false)
+    setCurrentMood(null)
+    setStartEntry(false)
   }
 
   const handleChange = (e) => {
@@ -38,15 +39,14 @@ const CreateEntryForm = ({ updateStats, userid }) => {
     <main className={classes.container}>
       <div
         className={classes.startEntry}
-        onClick={() => setStartEntry(true)}
+        onClick={() => showForm && setStartEntry(true)}
         style={startEntry ? { transform: 'translate(-190%, 10%)', opacity: 0 } : undefined}
       >
-      <span>
-        <FontAwesomeIcon icon={faPlus} />
-      </span>
-        <h2>Add a new entry?</h2>
+        <span>
+          <FontAwesomeIcon icon={showForm ? faPlus : faExclamation} />
+        </span>
+        <h2>{showForm ? 'Add a new entry?' : 'Available in 1 hour'}</h2>
       </div>
-
       <div
         className={classes.selectMood}
         style={
@@ -77,23 +77,16 @@ const CreateEntryForm = ({ updateStats, userid }) => {
           textLength={textLength}
           classes={classes}
         />
-        <div>
-          <FontAwesomeIcon
-            icon={faSpinner}
-            style={loading && { opacity: 1 }}
-            spin
-          />
-          <input
-            type='button'
-            value='Send'
-            onClick={handleEnter}
-          />
-        </div>
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            className={classes.arrow}
-            onClick={() => setCurrentMood(null)}
-          />
+        <input
+          type='button'
+          value='Send'
+          onClick={handleEnter}
+        />
+        <FontAwesomeIcon
+          icon={faAngleLeft}
+          className={classes.arrow}
+          onClick={() => setCurrentMood(null)}
+        />
       </div>
     </main>
   )
