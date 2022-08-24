@@ -11,9 +11,10 @@ import Link from 'next/link'
 import classes from './styles.module.scss'
 
 const SignInForm = () => {
-  const [inputValue, setInputValue] = useState({ name: '', password: '' })
+  const [inputValue, setInputValue] = useState({ name: '', password: '', keepToken: false })
   const [valid, setValid] = useState({ name: true, password: true })
   const messageTimer = () => setTimeout(() => setMessage(''), 2000)
+  const [keepToken, setKeepToken] = useState(false)
   const { setFavicon } = useContext(FaviconContext)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -29,12 +30,12 @@ const SignInForm = () => {
     }
 
     setLoading(true)
-    const data = await FetchSignIn(handleFetch, inputValue)
+    const data = await FetchSignIn(handleFetch, inputValue, keepToken)
 
     if (!data) {
       setValid({ name: false, password: false })
       setLoading(false)
-      setMessage('Name or password is incorrect, please try again or create an account')
+      setMessage('Name or password is incorrect')
       messageTimer()
     } else {
       setFavicon('/login.ico')
@@ -71,6 +72,7 @@ const SignInForm = () => {
                 <input
                   type='checkbox'
                   className={classes.checkbox}
+                  onChange={() => setKeepToken(!keepToken)}
                   disabled={loading}
                 />
                 Keep me logged in

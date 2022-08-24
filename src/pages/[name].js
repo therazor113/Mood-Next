@@ -1,30 +1,29 @@
 import { useContext, useEffect } from 'react'
 import FaviconContext from 'contexts/FaviconContext'
 import UserPageRef from 'components/pageRefs/UserPageRef'
+import { authUser } from 'middleware/ApiAuth'
 import Layout from 'components/core/Layout'
+import pool from 'lib/db'
 
-export const getStaticPaths = async () => {
-  const res = await fetch('http://localhost:3000/api/UsersApi/GetUsers')
-  const data = await res.json()
-  const paths = data.map(user => {
-    return {
-      params: { name: user.name }
+export const getServerSideProps = async (req, res) => {
+  try {
+    const { name } = req.query
+    const userData = await pool.query('SELECT userid, name FROM users WHERE name = $1', [name])
+    const auth = authUser(req, res)
+    if (auth.userid === userData.rows[0].userid) {
+      return {
+        props: { user: userData.rows[0] }
+      }
+    } else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/'
+        }
+      }
     }
-  })
-
-  return {
-    paths,
-    fallback: false
-  }
-}
-
-export const getStaticProps = async (context) => {
-  const name = context.params.name
-  const userRes = await fetch(`http://localhost:3000/api/UsersApi/GetUsers/${name}`)
-  const userData = await userRes.json()
-
-  return {
-    props: { user: userData }
+  } catch (err) {
+    console.error(err.message)
   }
 }
 

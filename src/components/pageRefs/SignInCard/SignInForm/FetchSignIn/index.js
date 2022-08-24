@@ -1,6 +1,10 @@
-const FetchSignIn = async (handleFetch, inputValue) => {
-  const path = `/UsersApi/GetUsers/${inputValue.name}`
-  return await handleFetch(path, 'GET')
+const FetchSignIn = async (handleFetch, inputValue, keepToken) => {
+  const path = '/UsersApi/SignInUser'
+  return await handleFetch(
+    path,
+    'POST',
+    { name: inputValue.name, password: inputValue.password, keepToken }
+  )
 }
 
 export default FetchSignIn
