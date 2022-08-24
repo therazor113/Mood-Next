@@ -4,7 +4,6 @@ import FaviconContext from 'contexts/FaviconContext'
 import NameField from 'components/utilities/formFields/NameField'
 import PasswordField from 'components/utilities/formFields/PasswordField'
 import RetypeField from 'components/utilities/formFields/RetypeField'
-import FetchSignIn from 'components/pageRefs/SignInCard/SignInForm/FetchSignIn'
 import FormValidation from 'components/utilities/FormValidation'
 import CreateUser from './CreateUser'
 import useAPI from 'hooks/useAPI'
@@ -37,11 +36,10 @@ const CreateUserForm = () => {
       setMessage('Please use a different name')
       setValid({ name: false, password: true, retype: true })
     } else {
-      setMessage(data)
+      setMessage(`User ${data.name} Created`)
       setValid({ name: true, password: true, retype: true })
       setFavicon('/create.ico')
-      const userData = await FetchSignIn(handleFetch, inputValue)
-      router.push('/[name]', `/${userData.name}`)
+      router.push('/[name]', `/${data.name}`)
     }
     messageTimer()
   }
