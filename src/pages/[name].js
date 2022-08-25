@@ -19,7 +19,7 @@ export const getServerSideProps = async (req, res) => {
       date: date.toLocaleDateString('en-CA'),
       hour: date.getHours()
     }
-    if (['test1', 'test2'].includes(name)) {
+    if (['John', 'test1', 'test2'].includes(name)) {
       return {
         props: { user: userData.rows[0], entryExists: true, dev: true }
       }
