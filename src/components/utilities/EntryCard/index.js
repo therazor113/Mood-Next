@@ -56,7 +56,7 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
           }
         </li>
 
-        <li>Journal Entry:
+        <li><h2>Journal Entry:</h2>
           {!showEdit &&
             <p>{userStats.journal}</p>
           }
