@@ -39,7 +39,7 @@ const Home = () => {
         <button
           className={classes.devButton}
           onClick={() => setDev(!dev)}>
-          {!dev ? 'Test Mode?' : 'Sign In?'}
+          {!dev ? 'Test drive?' : 'Sign In instead?'}
         </button>
     </Layout>
   )
