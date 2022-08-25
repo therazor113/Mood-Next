@@ -6,7 +6,7 @@
   align-items: center;
   gap: 2rem;
   div {
-    width: 95%;
+    width: 100%;
   }
 }
 
@@ -27,7 +27,7 @@
 
 .users {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
   gap: 1rem;
   input {
