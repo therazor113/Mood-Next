@@ -11,20 +11,23 @@ import useAPI from 'hooks/useAPI'
 import classes from './styles.module.scss'
 
 const UserPageRef = ({ user, entryExists, dev }) => {
+  const [counter, setCounter] = useState({ day: 0, week: 0, month: 0 })
+  const [dateTitle, setDateTitle] = useState({ day: '', week: '', month: '' })
   const [moods, setMoods] = useState({ day: [], week: [], month: [] })
   const [stats, setStats] = useState({ day: [], week: [], month: [] })
-  const [handleFetch] = useAPI()
+  const date = new Date().toLocaleDateString('en-CA').slice(5, 10)
   const updateRef = useRef(() => {})
+  const [handleFetch] = useAPI()
 
-  updateRef.current = () => {
-    DayStats(handleFetch, user, setStats, setMoods, dev)
-    WeekStats(handleFetch, user, setStats, setMoods, dev)
-    MonthStats(handleFetch, user, setStats, setMoods, dev)
+  updateRef.current = async () => {
+    await DayStats(handleFetch, user, setStats, setMoods, setDateTitle, counter.day, dev)
+    await WeekStats(handleFetch, user, setStats, setMoods, setDateTitle, counter.week, dev)
+    await MonthStats(handleFetch, user, setStats, setMoods, setDateTitle, counter.month, dev)
   }
 
   useEffect(() => {
     updateRef.current()
-  }, [])
+  }, [counter])
 
   return (
     <div className={classes.container}>
@@ -41,18 +44,24 @@ const UserPageRef = ({ user, entryExists, dev }) => {
         classes={classes}
         stats={stats.day}
         moods={moods.day}
+        dateTitle={date === dateTitle.day ? false : dateTitle.day}
+        setCounter={setCounter}
         updateStats={updateRef.current}
       />
       <LineWeek
         classes={classes}
         stats={stats.week}
         moods={moods.week}
+        dateTitle={dateTitle.week}
+        setCounter={setCounter}
         updateStats={updateRef.current}
       />
       <BarMonth
         classes={classes}
         stats={stats.month}
         moods={moods.month}
+        dateTitle={dateTitle.month}
+        setCounter={setCounter}
         updateStats={updateRef.current}
       />
     </div>

@@ -1,4 +1,7 @@
-const MonthStats = async (handleFetch, user, setStats, setMoods, dev) => {
+const MonthStats = async (handleFetch, user, setStats, setMoods, setDateTitle, counter, dev) => {
+  const date = new Date()
+  date.setMonth(date.getMonth() + counter)
+  setDateTitle(prev => { return { ...prev, month: date.toLocaleString('en-US', { month: 'long' }) } })
   const getData = async () => {
     if (dev) {
       const devData = await handleFetch(
@@ -8,7 +11,7 @@ const MonthStats = async (handleFetch, user, setStats, setMoods, dev) => {
       return devData
     } else {
       const userData = await handleFetch(
-        `/UserDataApi/GetEntries/${user.userid}/GetMonth/${new Date().toLocaleDateString('en-CA').slice(0, 7)}`,
+        `/UserDataApi/GetEntries/${user.userid}/GetMonth/${date.toLocaleDateString('en-CA').slice(0, 7)}`,
         'GET'
       )
       return userData

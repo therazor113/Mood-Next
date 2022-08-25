@@ -4,9 +4,9 @@ import { colors, solidColors, icons, createGradient } from '../Variables'
 import EntriesList from 'components/pageRefs/EntriesList'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faAngleRight, faXmark } from '@fortawesome/free-solid-svg-icons'
 
-const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
+const LineWeek = ({ classes, stats, moods, dateTitle, setCounter, updateStats }) => {
   const [cardIndex, setCardIndex] = useState(null)
   const [showChart, setShowChart] = useState(true)
   const chartRef = useRef()
@@ -128,7 +128,8 @@ const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
           onClick={() => setShowChart(!showChart)}
           rotation={showChart ? 270 : 0}
         />
-        <h2>This Weeks Moods</h2>
+        <h2>Weekly Moods</h2>
+        <h3>{dateTitle}</h3>
       </div>
       {cardIndex !== null &&
         <div className={classes.entryContainer}>
@@ -152,12 +153,28 @@ const LineWeek = ({ title, classes, stats, moods, updateStats }) => {
         className={classes.chartDiv}
         style={!showChart ? { transform: 'scaleY(0)', opacity: 0 } : {}}
       >
-      <Chart
-        options={options}
-        data={data}
-        onClick={handleClick}
-        ref={chartRef}
-      />
+        <FontAwesomeIcon
+          icon={faAngleLeft}
+          className={classes.prevArrow}
+          onClick={() => {
+            setCardIndex(null)
+            setCounter(prev => { return { ...prev, week: prev.week - 7 } })
+          }}
+        />
+        <Chart
+          options={options}
+          data={data}
+          onClick={handleClick}
+          ref={chartRef}
+        />
+        <FontAwesomeIcon
+          icon={faAngleRight}
+          className={classes.nextArrow}
+          onClick={() => {
+            setCardIndex(null)
+            setCounter(prev => { return { ...prev, week: prev.week + 7 } })
+          }}
+        />
       </div>
     </div>
   )

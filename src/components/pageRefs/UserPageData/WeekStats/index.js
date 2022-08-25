@@ -1,4 +1,9 @@
-const WeekStats = async (handleFetch, user, setStats, setMoods, dev) => {
+const WeekStats = async (handleFetch, user, setStats, setMoods, setDateTitle, counter, dev) => {
+  const date = new Date()
+  date.setDate(date.getDate() + counter)
+  const monthWeek = Math.ceil(date.getDate() / 7)
+  const monthName = date.toLocaleString('en-US', { month: 'short' })
+  setDateTitle(prev => { return { ...prev, week: `Week ${monthWeek} of ${monthName}` } })
   const getData = async () => {
     if (dev) {
       const devData = await handleFetch(
@@ -8,7 +13,7 @@ const WeekStats = async (handleFetch, user, setStats, setMoods, dev) => {
       return devData
     } else {
       const userData = await handleFetch(
-        `/UserDataApi/GetEntries/${user.userid}/GetWeek/${new Date().getWeek()}`,
+        `/UserDataApi/GetEntries/${user.userid}/GetWeek/${new Date().getWeek() + counter / 7}`,
         'GET'
       )
       return userData
