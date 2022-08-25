@@ -27,7 +27,7 @@ const LineWeek = ({ classes, stats, moods, dateTitle, setCounter, updateStats })
           color: (item) => {
             return colors[item.index]
           },
-          callback: (item, index) => {
+          callback: (_, index) => {
             return icons[index]
           }
         }
@@ -129,7 +129,7 @@ const LineWeek = ({ classes, stats, moods, dateTitle, setCounter, updateStats })
           rotation={showChart ? 270 : 0}
         />
         <h2>Weekly Moods</h2>
-        <h3>{dateTitle}</h3>
+        <h3>{showChart && dateTitle}</h3>
       </div>
       {cardIndex !== null &&
         <div className={classes.entryContainer}>
