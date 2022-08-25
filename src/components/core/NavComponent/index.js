@@ -12,7 +12,9 @@ const NavComponent = ({ log }) => {
 
   return (
     <div className={classes.container}>
-      <h2>Mood-<span className={classes.next}>Next</span></h2>
+      <Link href='/'>
+        <h2>Mood-<span className={classes.next}>Next</span></h2>
+      </Link>
       <div>
         {log === 'in' &&
         <Link href='/createLogin'>

@@ -18,7 +18,7 @@
     gap: 2rem;
   }
   h2 {
-    cursor: default;
+    cursor: pointer;
     &:hover {
       .next {
         text-decoration-color: $green-faded;
