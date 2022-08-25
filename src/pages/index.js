@@ -34,8 +34,7 @@ const Home = () => {
   }, [setFavicon])
   return (
     <Layout title={'Login'} log={'in'}>
-        {!dev && <SignInCard />}
-        {dev && <DevLogin />}
+        {(!dev && <SignInCard />) || <DevLogin />}
         <h2>-</h2>
         <button
           className={classes.devButton}
