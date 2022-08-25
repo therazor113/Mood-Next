@@ -12,8 +12,8 @@ const WeekEntries = ({ statsArr, updateStats }) => {
         }}
         key={userStats.id}
       >
-
-        <li>Hour: {
+        <li>{userStats.date}</li>
+        <li>{
           // 12 hr formatting
           userStats.time === 0
             ? '12 AM'
