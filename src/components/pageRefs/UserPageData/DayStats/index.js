@@ -1,24 +1,12 @@
 const DayStats = async (handleFetch, user, setStats, setMoods, setDateTitle, counter, dev) => {
-  const date = new Date()
+  const date = dev ? new Date('Thu Aug 15 2022') : new Date()
   date.setDate(date.getDate() + counter)
   setDateTitle(prev => { return { ...prev, day: date.toLocaleDateString('en-CA').slice(5, 10) } })
-  const getData = async () => {
-    if (dev) {
-      const devData = await handleFetch(
-        `/UserDataApi/GetEntries/${user.userid}/GetDay/2022-08-15`,
-        'GET'
-      )
-      return devData
-    } else {
-      const userData = await handleFetch(
-        `/UserDataApi/GetEntries/${user.userid}/GetDay/${date.toLocaleDateString('en-CA')}`,
-        'GET'
-      )
-      return userData
-    }
-  }
 
-  const data = await getData()
+  const data = await handleFetch(
+    `/UserDataApi/GetEntries/${user.userid}/GetDay/${date.toLocaleDateString('en-CA')}`,
+    'GET'
+  )
   setStats(prev => ({ ...prev, day: data }))
   setMoods(prev => {
     const dayArr = []
