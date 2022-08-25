@@ -32,7 +32,7 @@ const DevLogin = () => {
             type='button'
             name='John'
             aria-label='John'
-            value='John'
+            value='John - Consistent'
             onClick={handleClick}
           />
         </div>
@@ -43,22 +43,9 @@ const DevLogin = () => {
           />
           <input
             type='button'
-            name='test1'
-            aria-label='test1'
-            value='test1'
-            onClick={handleClick}
-          />
-        </div>
-        <div className={classes.buttonDiv}>
-          <FontAwesomeIcon
-            icon={faUserCog}
-            className={classes.leftInputIcon}
-          />
-          <input
-            type='button'
-            name='test2'
-            aria-label='test2'
-            value='test2'
+            name='Smith'
+            aria-label='Smith'
+            value='Smith - Inconsistent'
             onClick={handleClick}
           />
         </div>
