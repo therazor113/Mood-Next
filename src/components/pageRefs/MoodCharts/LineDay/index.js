@@ -44,11 +44,11 @@ const LineDay = ({ classes, stats, moods, dateTitle, setCounter, updateStats }) 
           callback: function (item) {
             if (stats[item]) {
               const time =
-              stats[item]?.time === '0'
+              stats[item]?.time === 0
                 ? '12 AM'
                 : stats[item]?.time < 12
                   ? `${stats[item]?.time} AM`
-                  : stats[item]?.time === '12'
+                  : stats[item]?.time === 12
                     ? `${stats[item]?.time} PM`
                     : `${stats[item]?.time - 12} PM`
               return time
