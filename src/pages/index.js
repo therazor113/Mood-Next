@@ -1,9 +1,12 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import FaviconContext from 'contexts/FaviconContext'
 import Layout from 'components/core/Layout'
 import SignInCard from 'components/pageRefs/SignInCard'
 import { authUser } from 'middleware/ApiAuth'
 import { hasCookie } from 'cookies-next'
+import DevLogin from 'components/pageRefs/DevLogin'
+
+import classes from 'styles/styles.module.scss'
 
 export const getServerSideProps = async (req, res) => {
   try {
@@ -25,12 +28,20 @@ export const getServerSideProps = async (req, res) => {
 
 const Home = () => {
   const { setFavicon } = useContext(FaviconContext)
+  const [dev, setDev] = useState(false)
   useEffect(() => {
     setFavicon('/favicon.ico')
   }, [setFavicon])
   return (
     <Layout title={'Login'} log={'in'}>
-      <SignInCard />
+        {!dev && <SignInCard />}
+        {dev && <DevLogin />}
+        <h2>-</h2>
+        <button
+          className={classes.devButton}
+          onClick={() => setDev(!dev)}>
+          {!dev ? 'Test Mode?' : 'Sign In?'}
+        </button>
     </Layout>
   )
 }

@@ -10,16 +10,16 @@ import useAPI from 'hooks/useAPI'
 
 import classes from './styles.module.scss'
 
-const UserPageRef = ({ user, entryExists }) => {
+const UserPageRef = ({ user, entryExists, dev }) => {
   const [moods, setMoods] = useState({ day: [], week: [], month: [] })
   const [stats, setStats] = useState({ day: [], week: [], month: [] })
   const [handleFetch] = useAPI()
   const updateRef = useRef(() => {})
 
   updateRef.current = () => {
-    DayStats(handleFetch, user, setStats, setMoods)
-    WeekStats(handleFetch, user, setStats, setMoods)
-    MonthStats(handleFetch, user, setStats, setMoods)
+    DayStats(handleFetch, user, setStats, setMoods, dev)
+    WeekStats(handleFetch, user, setStats, setMoods, dev)
+    MonthStats(handleFetch, user, setStats, setMoods, dev)
   }
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const UserPageRef = ({ user, entryExists }) => {
         updateStats={updateRef.current}
         userid={user.userid}
         entryExists={entryExists}
+        dev={dev}
       />
 
       <LineDay

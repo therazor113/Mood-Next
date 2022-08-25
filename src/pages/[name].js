@@ -19,6 +19,11 @@ export const getServerSideProps = async (req, res) => {
       date: date.toLocaleDateString('en-CA'),
       hour: date.getHours()
     }
+    if (['John', 'test1', 'test2'].includes(name)) {
+      return {
+        props: { user: userData.rows[0], entryExists: true, dev: true }
+      }
+    }
     const entryExists = await pool.query(
       'SELECT EXISTS (SELECT * FROM moods WHERE userid = $1 AND time = $2 AND date = $3)',
       [userData.rows[0].userid, timeStamp.hour, timeStamp.date]
@@ -35,7 +40,7 @@ export const getServerSideProps = async (req, res) => {
   }
 }
 
-const UserCharts = ({ user, entryExists }) => {
+const UserCharts = ({ user, entryExists, dev }) => {
   const { setFavicon } = useContext(FaviconContext)
   useEffect(() => {
     setFavicon('/chart.ico')
@@ -45,6 +50,7 @@ const UserCharts = ({ user, entryExists }) => {
       <UserPageRef
         user={user}
         entryExists={entryExists}
+        dev={dev}
       />
     </Layout>
   )

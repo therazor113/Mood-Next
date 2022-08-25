@@ -4,11 +4,11 @@ import CreateEntry from './CreateEntry'
 import useAPI from 'hooks/useAPI'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faAngleLeft, faExclamation } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faAngleLeft, faExclamation, faGear } from '@fortawesome/free-solid-svg-icons'
 import classes from './styles.module.scss'
 import FormTextField from '../FormTextField'
 
-const CreateEntryForm = ({ updateStats, userid, entryExists }) => {
+const CreateEntryForm = ({ updateStats, userid, entryExists, dev }) => {
   const [showForm, setShowForm] = useState(!entryExists)
   const [currentMood, setCurrentMood] = useState(null)
   const [startEntry, setStartEntry] = useState(false)
@@ -43,18 +43,19 @@ const CreateEntryForm = ({ updateStats, userid, entryExists }) => {
         style={startEntry ? { transform: 'translate(-190%, 10%)', opacity: 0 } : undefined}
       >
         <span>
-          <FontAwesomeIcon icon={showForm ? faPlus : faExclamation} />
+          <FontAwesomeIcon icon={dev ? faGear : showForm ? faPlus : faExclamation} />
         </span>
-        <h2>{showForm ? 'Add a new entry?' : 'Available in 1 hour'}</h2>
+        <h2>{dev ? 'Dev Mode' : showForm ? 'Add a new entry?' : 'Available in 1 hour'}</h2>
       </div>
       <div
         className={classes.selectMood}
         style={
-          startEntry
-            ? !currentMood
+          !startEntry
+            ? { transform: 'translateX(140%)', opacity: 0 }
+            : !currentMood
                 ? { transform: 'translateX(0%)', opacity: 1 }
                 : { transform: 'translateX(-140%)', opacity: 0 }
-            : { transform: 'translateX(140%)', opacity: 0 }}
+            }
       >
         <h2>How are you feeling?</h2>
         <MoodIcons

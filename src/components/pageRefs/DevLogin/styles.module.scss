@@ -1,0 +1,71 @@
+@use 'styles/variables' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  div {
+    width: 100%;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  h1 {
+    font-size: 40px;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 27px;
+    text-align: center;
+  }
+}
+
+.users {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1rem;
+  input {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: $gray-dull;
+    user-select: none;
+    border-radius: 8px;
+    justify-self: center;
+    border: 2px solid transparent;
+    background-color: $background-light;
+    transition: border 0.2s, color 0.2s;
+    cursor: pointer;
+    &:hover {
+      color: $gray-faded;
+      border: 2px solid $green-dull;
+    }
+    &:active {
+      color: $gray-light;
+      border: 2px solid $green-light;
+    }
+  }
+}
+.buttonDiv {
+  &:hover {
+    svg {
+      color: $green-faded;
+    }
+  }
+}
+.leftInputIcon {
+  transition: color 0.2s;
+  position: absolute;
+  width: 30px;
+  font-size: 20px;
+  transform: translate(0.6em, 1em);
+  color: $green-dull;
+}

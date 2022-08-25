@@ -1,0 +1,23 @@
+@use 'variables' as *;
+
+.devButton {
+  width: fit-content;
+  height: 30px;
+  font-weight: 600;
+  color: $gray-dull;
+  user-select: none;
+  border-radius: 8px;
+  justify-self: center;
+  border: 2px solid transparent;
+  background-color: $background-light;
+  transition: border 0.2s, color 0.2s;
+  cursor: pointer;
+  &:hover {
+    color: $gray-faded;
+    border: 2px solid $green-dull;
+  }
+  &:active {
+    color: $gray-light;
+    border: 2px solid $green-light;
+  }
+}
