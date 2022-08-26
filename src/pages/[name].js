@@ -24,10 +24,7 @@ export const getServerSideProps = async (req, res) => {
         props: { user: userData.rows[0], entryExists: true, dev: true }
       }
     }
-    const entryExists = await pool.query(
-      'SELECT EXISTS (SELECT * FROM moods WHERE userid = $1 AND time = $2 AND date = $3)',
-      [userData.rows[0].userid, timeStamp.hour, timeStamp.date]
-    )
+    const entryExists = date
     if (auth.userid === userData.rows[0].userid) {
       return {
         props: { user: userData.rows[0], entryExists: entryExists.rows[0].exists }
