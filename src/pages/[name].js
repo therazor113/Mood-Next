@@ -1,8 +1,10 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import CheckStats from 'components/pageRefs/UserPageData/CheckStats'
 import FaviconContext from 'contexts/FaviconContext'
 import UserPageRef from 'components/pageRefs/UserPageRef'
 import { authUser } from 'middleware/ApiAuth'
 import Layout from 'components/core/Layout'
+import useAPI from 'hooks/useAPI'
 import pool from 'lib/db'
 
 export const getServerSideProps = async (req, res) => {
@@ -19,10 +21,9 @@ export const getServerSideProps = async (req, res) => {
         props: { user: userData.rows[0], entryExists: true, dev: true }
       }
     }
-    const entryExists = new Date()
     if (auth.userid === userData.rows[0].userid) {
       return {
-        props: { user: userData.rows[0], entryExists: entryExists.rows[0].exists }
+        props: { user: userData.rows[0], dev: false }
       }
     } else {
       return { redirect }
@@ -32,19 +33,33 @@ export const getServerSideProps = async (req, res) => {
   }
 }
 
-const UserCharts = ({ user, entryExists, dev }) => {
+const UserCharts = ({ user, dev }) => {
   const { setFavicon } = useContext(FaviconContext)
+  const [entryExists, setEntryExists] = useState(undefined)
+  const [handleFetch] = useAPI()
+  const checkRef = useRef(() => {})
+
+  checkRef.current = async () => {
+    await CheckStats(handleFetch, setEntryExists, user.userid)
+  }
+
+  useEffect(() => {
+    checkRef.current()
+  }, [])
+
   useEffect(() => {
     setFavicon('/chart.ico')
   }, [setFavicon])
-  console.log(entryExists)
+
   return (
     <Layout title={'Charts'} log={'out'}>
-      <UserPageRef
-        user={user}
-        entryExists={!entryExists}
-        dev={dev}
-      />
+      {entryExists !== undefined &&
+        <UserPageRef
+          user={user}
+          entryExists={dev ? true : entryExists}
+          dev={dev}
+        />
+      }
     </Layout>
   )
 }
