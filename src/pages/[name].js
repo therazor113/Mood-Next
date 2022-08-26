@@ -14,17 +14,12 @@ export const getServerSideProps = async (req, res) => {
       return { redirect }
     }
     const auth = authUser(req, res)
-    const date = new Date()
-    const timeStamp = {
-      date: date.toLocaleDateString('en-CA'),
-      hour: date.getHours()
-    }
     if (['John', 'Smith'].includes(name)) {
       return {
         props: { user: userData.rows[0], entryExists: true, dev: true }
       }
     }
-    const entryExists = date
+    const entryExists = new Date()
     if (auth.userid === userData.rows[0].userid) {
       return {
         props: { user: userData.rows[0], entryExists: entryExists.rows[0].exists }
@@ -47,7 +42,7 @@ const UserCharts = ({ user, entryExists, dev }) => {
     <Layout title={'Charts'} log={'out'}>
       <UserPageRef
         user={user}
-        entryExists={entryExists}
+        entryExists={!entryExists}
         dev={dev}
       />
     </Layout>
