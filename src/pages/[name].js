@@ -45,6 +45,7 @@ const UserCharts = ({ user, entryExists, dev }) => {
   useEffect(() => {
     setFavicon('/chart.ico')
   }, [setFavicon])
+  console.log(entryExists)
   return (
     <Layout title={'Charts'} log={'out'}>
       <UserPageRef

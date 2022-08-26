@@ -1,5 +1,5 @@
 const useAPI = () => {
-  const url = 'https://mood-next.vercel.app/api'
+  const url = '/api'
 
   return [
     async (path, method, body) => {
