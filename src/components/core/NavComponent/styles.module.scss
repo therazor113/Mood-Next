@@ -18,6 +18,7 @@
     gap: 2rem;
   }
   h2 {
+    white-space: nowrap;
     cursor: pointer;
     &:hover {
       .next {
@@ -35,6 +36,9 @@
 }
 
 .link {
+  width: fit-content;
+  height: fit-content;
+  white-space: nowrap;
   border: none;
   border-radius: 0.8rem;
   padding: 1px 10px 3px 10px;

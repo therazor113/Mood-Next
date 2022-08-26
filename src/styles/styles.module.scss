@@ -1,5 +1,10 @@
 @use 'variables' as *;
 
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .devButton {
   width: fit-content;
   height: 30px;

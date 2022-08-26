@@ -34,6 +34,7 @@ const Home = () => {
   }, [setFavicon])
   return (
     <Layout title={'Login'} log={'in'}>
+      <div className={classes.mainContainer}>
         {(!dev && <SignInCard />) || <DevLogin />}
         <h2>-</h2>
         <button
@@ -41,6 +42,7 @@ const Home = () => {
           onClick={() => setDev(!dev)}>
           {!dev ? 'Test drive?' : 'Sign In instead?'}
         </button>
+      </div>
     </Layout>
   )
 }
