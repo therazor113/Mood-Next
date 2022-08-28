@@ -8,10 +8,11 @@
   z-index: 100;
   display: flex;
   position: fixed;
+  color: $gray-dim;
   padding-left: 1rem;
   padding-right: 2rem;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   background-color: $background-light;
   div {
     display: flex;
@@ -29,7 +30,7 @@
 }
 
 .next {
-  color: $green-faded;
+  color: $green-light;
   transition: color 0.2s, text-decoration-color 0.2s;
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -46,7 +47,6 @@
   &:hover {
     color: $gray-faded;
     background-color: $green-dark;
-    cursor: pointer;
   }
   &:active {
     color: $gray-light;
