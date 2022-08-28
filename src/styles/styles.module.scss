@@ -26,3 +26,9 @@
     border: 2px solid $green-light;
   }
 }
+
+.userPageContainer {
+  @media (max-width: 800px) {
+    width: 800px;
+  }
+}

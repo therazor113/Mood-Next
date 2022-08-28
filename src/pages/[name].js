@@ -7,6 +7,8 @@ import Layout from 'components/core/Layout'
 import useAPI from 'hooks/useAPI'
 import pool from 'lib/db'
 
+import classes from 'styles/styles.module.scss'
+
 export const getServerSideProps = async (req, res) => {
   try {
     const redirect = { destination: '/', permanent: false }
@@ -53,6 +55,7 @@ const UserCharts = ({ user, dev }) => {
 
   return (
     <Layout title={'Charts'} log={'out'}>
+      <div className={classes.userPageContainer}>
       {entryExists !== undefined &&
         <UserPageRef
           user={user}
@@ -60,6 +63,7 @@ const UserCharts = ({ user, dev }) => {
           dev={dev}
         />
       }
+      </div>
     </Layout>
   )
 }
