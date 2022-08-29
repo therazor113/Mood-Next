@@ -1,4 +1,5 @@
 import Providers from 'contexts/Providers'
+import NextNProgress from 'nextjs-progressbar'
 
 import 'chart.js/auto'
 import 'styles/globals.scss'
@@ -15,6 +16,14 @@ defaults.font.family = "'Helvetica Neue', 'Helvetica', 'Arial', 'Font Awesome 6 
 const MyApp = ({ Component, pageProps }) => {
   return (
     <Providers>
+      <NextNProgress
+        color="#29D"
+        startPosition={0.2}
+        stopDelayMs={100}
+        height={1}
+        showOnShallow={false}
+        options={{ showSpinner: false }}
+      />
       <Component {...pageProps} />
     </Providers>
   )
