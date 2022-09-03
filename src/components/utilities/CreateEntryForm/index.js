@@ -30,7 +30,7 @@ const CreateEntryForm = ({ updateStats, userid, entryExists, dev }) => {
   }
 
   const handleChange = (e) => {
-    if (/\n/g.test(e.target.value) || e.target.value.length > 254) return
+    if (e.target.value.length > 254) return
     setInputEntry(e.target.value)
     setTextLength(254 - e.target.value.length)
   }
@@ -77,6 +77,7 @@ const CreateEntryForm = ({ updateStats, userid, entryExists, dev }) => {
           inputEntry={inputEntry}
           textLength={textLength}
           classes={classes}
+          handleEnter={handleEnter}
         />
         <input
           type='button'

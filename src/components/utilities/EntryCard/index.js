@@ -16,17 +16,17 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
   const [moodId, setMoodId] = useState(null)
   const [handleFetch] = useAPI()
 
-  const handleChange = (e) => {
-    if (/\n/g.test(e.target.value) || e.target.value.length > 254) return
-    setInputEntry(e.target.value)
-    setTextLength(254 - e.target.value.length)
-  }
-
   const handleEnter = async () => {
     if (!inputEntry) return
     await UpdateEntry(handleFetch, inputEntry, moodId, entryId)
     updateStats()
     setShowEdit(false)
+  }
+
+  const handleChange = (e) => {
+    if (e.target.value.length > 254) return
+    setInputEntry(e.target.value)
+    setTextLength(254 - e.target.value.length)
   }
 
   return (
@@ -67,6 +67,7 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
               inputEntry={inputEntry}
               textLength={textLength}
               classes={classes}
+              handleEnter={handleEnter}
             />
           }
         </li>
