@@ -1,0 +1,34 @@
+@use 'styles/variables' as *;
+
+.container {
+  display: flex;
+  justify-self: flex-end;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.menuButton {
+  width: 25px;
+  font-size: 25px;
+  transition: color 0.2s, transform 0.2s;
+  cursor: pointer;
+  &:active {
+    color: $gray-dull;
+    transform: scale(1.1);
+  }
+}
+
+.menuContainer {
+  position: absolute;
+  top: 3.5rem;
+  right: 2rem;
+  display: flex;
+  border-radius: 1rem;
+  padding: 10px;
+  background-color: $background-dim;
+  transition: transform 0.2s, opacity 0.2s;
+  transform-origin: top;
+  opacity: 0;
+  transform: scaleY(0);
+}

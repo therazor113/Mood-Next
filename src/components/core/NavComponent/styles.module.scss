@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: $background-light;
-  div {
+  .links {
     display: flex;
     gap: 2rem;
   }
@@ -51,5 +51,8 @@
   &:active {
     color: $gray-light;
     background-color: $green-dull;
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 }
