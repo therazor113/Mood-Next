@@ -99,6 +99,9 @@
   &:active {
     color: $gray-faded;
   }
+  @media (max-width: 860px) {
+    left: -1.5rem;
+  }
 }
 .nextArrow {
   position: absolute;
@@ -112,5 +115,8 @@
   }
   &:active {
     color: $gray-faded;
+  }
+  @media (max-width: 860px) {
+    padding-right: 0.5rem;
   }
 }
