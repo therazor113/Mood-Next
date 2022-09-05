@@ -4,11 +4,11 @@ import NavComponent from '../NavComponent'
 
 import classes from './styles.module.scss'
 
-const Layout = ({ children, title, log }) => {
+const Layout = ({ children, title, loggedIn }) => {
   return (
     <div className={classes.container}>
       <HeadComponent title={title}/>
-      <NavComponent log={log} />
+      <NavComponent loggedIn={loggedIn} />
       <main className={classes.main}>
         {children}
       </main>

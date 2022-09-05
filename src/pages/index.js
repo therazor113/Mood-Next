@@ -33,7 +33,7 @@ const Home = () => {
     setFavicon('/favicon.ico')
   }, [setFavicon])
   return (
-    <Layout title={'Login'} log={'in'}>
+    <Layout title={'Login'} loggedIn={false}>
       <div className={classes.mainContainer}>
         {(!dev && <SignInCard />) || <DevLogin />}
         <h2>-</h2>

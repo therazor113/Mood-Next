@@ -9,7 +9,7 @@ const CreateUserPage = () => {
     setFavicon('/create.ico')
   }, [setFavicon])
   return (
-    <Layout title={'Create Login'} log={'in'}>
+    <Layout title={'Create Login'} loggedIn={false}>
       <CreateUserCard />
     </Layout>
   )

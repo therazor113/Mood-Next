@@ -54,7 +54,7 @@ const UserCharts = ({ user, dev }) => {
   }, [setFavicon])
 
   return (
-    <Layout title={'Charts'} log={'out'}>
+    <Layout title={'Charts'} loggedIn={true}>
       <div className={classes.userPageContainer}>
       {entryExists !== undefined &&
         <UserPageRef
