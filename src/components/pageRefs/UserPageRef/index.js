@@ -32,14 +32,12 @@ const UserPageRef = ({ user, entryExists, dev }) => {
   return (
     <div className={classes.container}>
       <h2 className={classes.welcome}>Welcome! <span>{user.name}</span></h2>
-
       <CreateEntryForm
         updateStats={updateRef.current}
         userid={user.userid}
-        entryExists={entryExists}
+        entryExists={dev || entryExists}
         dev={dev}
       />
-
       <LineDay
         classes={classes}
         stats={stats.day}
