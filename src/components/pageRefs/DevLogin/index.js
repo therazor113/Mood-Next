@@ -17,7 +17,7 @@ const DevLogin = () => {
       router.push('/[name]', `/${data.name}`)
     }
   }
-  
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>

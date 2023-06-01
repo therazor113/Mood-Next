@@ -27,11 +27,13 @@ export const getServerSideProps = async (req, res) => {
 }
 
 const Home = () => {
+  const [testDrive, setTestDrive] = useState(false)
   const { setFavicon } = useContext(FaviconContext)
-  const [ testDrive, setTestDrive ] = useState(false)
+
   useEffect(() => {
     setFavicon('/favicon.ico')
   }, [setFavicon])
+  
   return (
     <Layout title={'Login'} loggedIn={false}>
       <div className={classes.mainContainer}>

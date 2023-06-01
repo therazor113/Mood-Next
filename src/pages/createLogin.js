@@ -5,9 +5,11 @@ import CreateUserCard from 'components/pageRefs/CreateUserCard'
 
 const CreateUserPage = () => {
   const { setFavicon } = useContext(FaviconContext)
+  
   useEffect(() => {
     setFavicon('/create.ico')
   }, [setFavicon])
+
   return (
     <Layout title={'Create Login'} loggedIn={false}>
       <CreateUserCard />

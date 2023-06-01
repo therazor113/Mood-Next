@@ -54,7 +54,8 @@ const UserCharts = ({ user, dev }) => {
   useEffect(() => {
     setFavicon('/chart.ico')
     setDev(dev)
-  }, [setFavicon])
+    console.log(1)
+  }, [setFavicon, setDev, dev])
 
   return (
     <Layout title={'Charts'} loggedIn={true}>
