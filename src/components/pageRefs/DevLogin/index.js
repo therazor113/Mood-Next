@@ -9,6 +9,7 @@ import classes from './styles.module.scss'
 const DevLogin = () => {
   const [handleFetch] = useAPI()
   const router = useRouter()
+
   const handleClick = async (e) => {
     const inputValue = { name: e.target.name, password: 'dev' }
     const data = await FetchSignIn(handleFetch, inputValue)
@@ -16,6 +17,7 @@ const DevLogin = () => {
       router.push('/[name]', `/${data.name}`)
     }
   }
+  
   return (
     <div className={classes.container}>
       <div className={classes.header}>
