@@ -33,7 +33,7 @@ const Home = () => {
   useEffect(() => {
     setFavicon('/favicon.ico')
   }, [setFavicon])
-  
+
   return (
     <Layout title={'Login'} loggedIn={false}>
       <div className={classes.mainContainer}>
