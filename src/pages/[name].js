@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import CheckStats from 'components/pageRefs/UserPageData/CheckStats'
 import FaviconContext from 'contexts/FaviconContext'
+import DevContext from 'contexts/DevContext'
 import UserPageRef from 'components/pageRefs/UserPageRef'
 import { authUser } from 'middleware/ApiAuth'
 import Layout from 'components/core/Layout'
@@ -37,6 +38,7 @@ export const getServerSideProps = async (req, res) => {
 
 const UserCharts = ({ user, dev }) => {
   const { setFavicon } = useContext(FaviconContext)
+  const { setDev } = useContext(DevContext)
   const [entryExists, setEntryExists] = useState(undefined)
   const [handleFetch] = useAPI()
   const checkRef = useRef(() => {})
@@ -51,6 +53,7 @@ const UserCharts = ({ user, dev }) => {
 
   useEffect(() => {
     setFavicon('/chart.ico')
+    setDev(dev)
   }, [setFavicon])
 
   return (
@@ -59,7 +62,7 @@ const UserCharts = ({ user, dev }) => {
       {entryExists !== undefined &&
         <UserPageRef
           user={user}
-          entryExists={dev ? true : entryExists}
+          entryExists={entryExists}
           dev={dev}
         />
       }
