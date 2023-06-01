@@ -27,20 +27,22 @@ export const getServerSideProps = async (req, res) => {
 }
 
 const Home = () => {
+  const [testDrive, setTestDrive] = useState(false)
   const { setFavicon } = useContext(FaviconContext)
-  const [dev, setDev] = useState(false)
+
   useEffect(() => {
     setFavicon('/favicon.ico')
   }, [setFavicon])
+
   return (
     <Layout title={'Login'} loggedIn={false}>
       <div className={classes.mainContainer}>
-        {(!dev && <SignInCard />) || <DevLogin />}
+        {(!testDrive && <SignInCard />) || <DevLogin />}
         <h2>-</h2>
         <button
           className={classes.devButton}
-          onClick={() => setDev(!dev)}>
-          {!dev ? 'Test drive?' : 'Sign In instead?'}
+          onClick={() => setTestDrive(!testDrive)}>
+          {!testDrive ? 'Test drive?' : 'Sign In instead?'}
         </button>
       </div>
     </Layout>
