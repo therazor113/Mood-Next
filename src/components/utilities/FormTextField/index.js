@@ -6,9 +6,6 @@ const FormTextField = ({ handleChange, inputEntry, textLength, classes, handleEn
       aria-label='Journal'
       placeholder='Whats on your mind?'
       value={inputEntry}
-      onKeyDown={e => {
-        if (!e.shiftKey && e.key === 'Enter') handleEnter()
-      }}
       onChange={handleChange}
     />
     <p className={classes.textLength}>{textLength}</p>
