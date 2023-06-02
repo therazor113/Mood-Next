@@ -1,4 +1,4 @@
-const FormTextField = ({ handleChange, inputEntry, textLength, classes, handleEnter }) => {
+const FormTextField = ({ handleChange, inputEntry, textLength, classes }) => {
   return (
   <div className={classes.textAreaContainer}>
     <textarea
