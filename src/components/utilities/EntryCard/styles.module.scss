@@ -12,7 +12,7 @@
     align-self: flex-start;
     resize: none;
     color: $gray-faded;
-    border-radius: 10px;
+    border-radius: 7px;
     border: 2px solid $gray-dark;
     background-color: $background-light;
     transition: border 0.2s;
@@ -22,6 +22,23 @@
     &:focus {
       border: 2px solid $green-dull;
     }
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: none;
+      background-clip: content-box;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background-color: $gray-dark;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: $gray-dull;
+    }
+  }
+  textarea[readOnly] {
+    min-height: 115px;
   }
   input {
     width: 4rem;
@@ -44,6 +61,9 @@
       border: 2px solid $green-light;
     }
   }
+}
+.readOnlyTextArea {
+  height: fit-content;
 }
 .editIcon {
   position: absolute;

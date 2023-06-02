@@ -16,7 +16,7 @@ const CreateEntryForm = ({ updateStats, userid, entryExists, dev }) => {
   const [inputEntry, setInputEntry] = useState('')
   const [handleFetch] = useAPI()
 
-  const handleEnter = async () => {
+  const handleSubmit = async () => {
     if (!inputEntry || !currentMood) return
     const data = await CreateEntry(handleFetch, inputEntry, currentMood, userid)
     if (data) {
@@ -77,12 +77,11 @@ const CreateEntryForm = ({ updateStats, userid, entryExists, dev }) => {
           inputEntry={inputEntry}
           textLength={textLength}
           classes={classes}
-          handleEnter={handleEnter}
         />
         <input
           type='button'
           value='Send'
-          onClick={handleEnter}
+          onClick={handleSubmit}
         />
         <FontAwesomeIcon
           icon={faAngleLeft}

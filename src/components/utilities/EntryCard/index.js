@@ -18,7 +18,7 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
   const [handleFetch] = useAPI()
   const { dev } = useContext(DevContext)
 
-  const handleEnter = async () => {
+  const handleSubmit = async () => {
     if (!inputEntry) return
     await UpdateEntry(handleFetch, inputEntry, moodId, entryId)
     updateStats()
@@ -62,7 +62,12 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
 
         <li><h2>Journal Entry:</h2>
           {!showEdit &&
-            <p>{userStats.journal}</p>
+              <textarea
+                name='readOnly message'
+                aria-label='ReadOnly Journal'
+                value={userStats.journal}
+                readOnly
+              />
           }
 
           {showEdit &&
@@ -71,7 +76,6 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
               inputEntry={inputEntry}
               textLength={textLength}
               classes={classes}
-              handleEnter={handleEnter}
             />
           }
         </li>
@@ -79,7 +83,7 @@ const EntryCard = ({ userStats, updateStats, entryId }) => {
         <input
           type='button'
           value='Update'
-          onClick={handleEnter}
+          onClick={handleSubmit}
         />
       }
     </div>

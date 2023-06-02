@@ -54,7 +54,6 @@ const UserCharts = ({ user, dev }) => {
   useEffect(() => {
     setFavicon('/chart.ico')
     setDev(dev)
-    console.log(1)
   }, [setFavicon, setDev, dev])
 
   return (
