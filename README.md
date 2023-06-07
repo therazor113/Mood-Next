@@ -2,8 +2,6 @@
 
 A mood tracking app built using nextjs
 
-*Work in progress*
-
 ## Instructions:
 https://mood-next.vercel.app/
 
@@ -47,6 +45,6 @@ npm install
 ```
 npm run dev
 ```
-requires a PostgreSQL Database to work as intended</br>
+Requires a PostgreSQL Database to work as intended</br>
 
 http://localhost:3000
