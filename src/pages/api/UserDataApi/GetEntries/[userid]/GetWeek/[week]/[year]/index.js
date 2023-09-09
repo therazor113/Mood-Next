@@ -3,9 +3,6 @@ import pool from 'lib/db'
 const getAllMoodsById = async (req, res) => {
   try {
     const { userid, week, year } = req.query
-
-    console.log(`${userid} ${week} ${year}`)
-
     const moods = await pool.query(
       `SELECT weekday,
         json_agg(json_build_object('id', id, 'mood', mood, 'time', time, 'date', date, 'journal', journal)
