@@ -6,7 +6,7 @@ const WeekStats = async (handleFetch, user, setStats, setMoods, setDateTitle, co
   setDateTitle(prev => { return { ...prev, week: `Week ${monthWeek} of ${monthName}` } })
 
   const data = await handleFetch(
-    `/UserDataApi/GetEntries/${user.userid}/GetWeek/${date.getWeek()}`,
+    `/UserDataApi/GetEntries/${user.userid}/GetWeek/${date.getWeek()}/${date.getFullYear()}`,
     'GET'
   )
 
