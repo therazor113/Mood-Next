@@ -148,7 +148,13 @@ const LineDay = ({ classes, stats, moods, dateTitle, setCounter, updateStats }) 
           onClick={() => setShowChart(!showChart)}
           rotation={showChart ? 270 : 0}
         />
-        <h2>{`${dateTitle || 'Todays'} Moods`}</h2>
+        <h2>Daily Moods</h2>
+        {showChart &&
+          <div className={classes.dateTitle}>
+            <h3>{dateTitle.day}</h3>
+            <h3>{dateTitle.year}</h3>
+          </div>
+        }
       </div>
       {cardIndex !== null &&
         <div className={classes.entryContainer}>

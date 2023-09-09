@@ -1,7 +1,7 @@
 const MonthStats = async (handleFetch, user, setStats, setMoods, setDateTitle, counter, dev) => {
   const date = dev ? new Date('Thu Aug 15 2022') : new Date()
   date.setMonth(date.getMonth() + counter)
-  setDateTitle(prev => { return { ...prev, month: date.toLocaleString('en-US', { month: 'long' }) } })
+  setDateTitle(prev => { return { ...prev, month: { month: date.toLocaleString('en-US', { month: 'long' }), year: date.getFullYear() } } })
 
   const data = await handleFetch(
     `/UserDataApi/GetEntries/${user.userid}/GetMonth/${date.toLocaleDateString('en-CA').slice(0, 7)}`,
