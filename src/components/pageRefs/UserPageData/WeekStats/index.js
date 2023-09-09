@@ -3,7 +3,7 @@ const WeekStats = async (handleFetch, user, setStats, setMoods, setDateTitle, co
   date.setDate(date.getDate() + counter)
   const monthWeek = Math.ceil(date.getDate() / 7)
   const monthName = date.toLocaleString('en-US', { month: 'short' })
-  setDateTitle(prev => { return { ...prev, week: `Week ${monthWeek} of ${monthName}` } })
+  setDateTitle(prev => { return { ...prev, week: { week: `Week ${monthWeek} of ${monthName}`, year: date.getFullYear() } } })
 
   const data = await handleFetch(
     `/UserDataApi/GetEntries/${user.userid}/GetWeek/${date.getWeek()}/${date.getFullYear()}`,

@@ -12,10 +12,9 @@ import classes from './styles.module.scss'
 
 const UserPageRef = ({ user, entryExists, dev }) => {
   const [counter, setCounter] = useState({ day: 0, week: 0, month: 0 })
-  const [dateTitle, setDateTitle] = useState({ day: '', week: '', month: '' })
+  const [dateTitle, setDateTitle] = useState({ day: [], week: [], month: [] })
   const [moods, setMoods] = useState({ day: [], week: [], month: [] })
   const [stats, setStats] = useState({ day: [], week: [], month: [] })
-  const date = new Date().toLocaleDateString('en-CA').slice(5, 10)
   const updateRef = useRef(() => {})
   const [handleFetch] = useAPI()
 
@@ -42,7 +41,7 @@ const UserPageRef = ({ user, entryExists, dev }) => {
         classes={classes}
         stats={stats.day}
         moods={moods.day}
-        dateTitle={date === dateTitle.day ? false : dateTitle.day}
+        dateTitle={dateTitle.day}
         setCounter={setCounter}
         updateStats={updateRef.current}
       />
