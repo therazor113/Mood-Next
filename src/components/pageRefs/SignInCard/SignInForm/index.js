@@ -37,6 +37,10 @@ const SignInForm = () => {
       setLoading(false)
       setMessage('Name or password is incorrect')
       messageTimer()
+    } else if (data === 'error') {
+      setLoading(false)
+      setMessage('Database Error - Try again later')
+      messageTimer()
     } else {
       setFavicon('/login.ico')
       setValid({ name: true, password: true })
