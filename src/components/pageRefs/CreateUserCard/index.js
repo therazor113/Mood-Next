@@ -8,7 +8,7 @@ const CreateUserCard = () => {
       <div className={classes.container}>
         <div className={classes.header}>
           <h1>Create Login</h1>
-          <h2>Enter a your Name and Password<br/>to create an account.</h2>
+          <h2>Enter a name and password<br/>to create an account!</h2>
         </div>
         <CreateUserForm />
         <div className={classes.footer}>
