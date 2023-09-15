@@ -42,7 +42,7 @@ const Home = () => {
         <button
           className={classes.devButton}
           onClick={() => setTestDrive(!testDrive)}>
-          {!testDrive ? 'Test drive?' : 'Sign In instead?'}
+          {!testDrive ? 'Test drive?' : 'User login?'}
         </button>
       </div>
     </Layout>
