@@ -9,16 +9,18 @@ const NavLinks = ({ loggedIn, classes }) => {
   }
   return (
     <div className={classes.links}>
-    {!loggedIn &&
-      <Link href='/createLogin'>
-        <h2 className={classes.link}>Register</h2>
-      </Link>
-    }
-    <h2
-      className={classes.link}
-      onClick={handleClick}
-    >{loggedIn ? 'Log out' : 'Log in'}</h2>
-  </div>
+      <h2
+        className={classes.link}
+        onClick={handleClick}
+      >
+        {loggedIn ? 'Log out' : 'Login'}
+      </h2>
+      {!loggedIn &&
+        <Link href='/createLogin'>
+          <h2 className={classes.link}>Register</h2>
+        </Link>
+      }
+    </div>
   )
 }
 

@@ -6,7 +6,6 @@ import PasswordField from 'components/utilities/formFields/PasswordField'
 import FormValidation from 'components/utilities/FormValidation'
 import FetchSignIn from './FetchSignIn'
 import useAPI from 'hooks/useAPI'
-import Link from 'next/link'
 
 import classes from './styles.module.scss'
 
@@ -81,9 +80,6 @@ const SignInForm = () => {
                 />
                 Keep me logged in
               </label>
-              <Link href='/'>
-                <p>Forgot password?</p>
-              </Link>
             </div>
           <input
             type='submit'

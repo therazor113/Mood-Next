@@ -8,7 +8,7 @@ const SignInCard = () => {
     <div className={classes.container}>
       <div className={classes.header}>
         <h1>User Login</h1>
-        <h2>Welcome! Enter your name to sign in<br/>and view your charts!</h2>
+        <h2>Enter your name and password<br/>to view your charts!</h2>
       </div>
       <SignInForm />
       <div className={classes.footer}>
